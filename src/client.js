@@ -163,6 +163,40 @@ class PrintfulAcountClient{
         return {sync_product, sync_variants, error: ""};
     }
 
+    /**
+     * Deletes a Sync Product with all of its Sync Variants
+     * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with @)
+     * 
+     * @returns {promise} {sync_product, sync_variants, error}
+     */
+    async deleteSyncProduct(id){
+        const url = this.origin+"/store/products/"+id;
+        const response = await axios.delete(url,{ headers: this.headers });
+        const data = await response.data;
+        if (data.code >= 400){
+            return {sync_product: {}, sync_variants: [], error: data.error.message};
+        }
+        const {sync_product, sync_variants} = await data.result;
+        // console.log(sync_product, sync_variants);
+        return {sync_product, sync_variants, error: ""};
+    }
+
+    async modifySyncProduct(id, sync_product, sync_variants){
+        const url = this.origin+"/store/products/"+id;
+        const response = await axios.post(
+            url,
+            { sync_product, sync_variants },
+            { headers: this.headers }
+        );
+        const data = await response.data;
+        if (data.code >= 400){
+            return {product: {}, error: data.error.message};
+        }
+        const {result: product} = await data;
+        // console.log(product);
+        return {product, error: ""};
+    }
+
     test(){
         console.log("Printful Client works!");
     }

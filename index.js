@@ -37,3 +37,5 @@ const Client = createPrintfulAcountClient(process.env.API_AUTH)
 // Client.createSyncProduct(sync_product, sync_variants);
 
 // Client.getSyncProduct(313776218);
+
+// Client.deleteSyncProduct(313776218);
