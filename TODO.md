@@ -1,5 +1,4 @@
 # TODO List
-- Introduce TypeScript
 - Edit All Methods & Classes
 
 ## Potential Problems:
