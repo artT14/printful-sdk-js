@@ -1,12 +1,10 @@
-const {createPrintfulAcountClient} = require('./src/client') 
-const {SyncProduct} = require('./src/product')
-const {SyncVariant, SyncVariantOption} = require('./src/variant')
-const {File, FileOption} = require('./src/file')
+import {createPrintfulAcountClient} from'./src/client' 
 
 require('dotenv').config()
 
 const Client = createPrintfulAcountClient(process.env.API_AUTH)
-//Client.getProducts()
+
+// Client.getProducts()
 
 //Client.getVariant(4018)
 
@@ -39,3 +37,10 @@ const Client = createPrintfulAcountClient(process.env.API_AUTH)
 // Client.getSyncProduct(313776218);
 
 // Client.deleteSyncProduct(313776218);
+
+async function main(){
+    const res = await Client.getProducts();
+    console.log(res);
+}
+
+main();

@@ -1,8 +1,14 @@
 const axios = require('axios')
+import type { SyncProduct, OptionalSyncProduct } from './types/product'
+import type { SyncVariant, OptionalSyncVariant } from './types/variant';
 
-class PrintfulAcountClient{
+export class PrintfulAcountClient{
     origin = "https://api.printful.com"
-    constructor(auth){
+    protected auth: string | undefined;
+    protected headers: {
+        Authorization: string
+    }
+    constructor(auth: string | undefined){
         this.auth = auth;
         this.headers = {Authorization: "Bearer " + this.auth};
     }
@@ -29,7 +35,7 @@ class PrintfulAcountClient{
      * 
      * @returns {promise} {product, variants, error}
     */
-    async getProduct(id){
+    async getProduct(id: number){
         const url = this.origin+"/products"+id;
         const response = await axios.get(url)
         const data = await response.data;
@@ -47,7 +53,7 @@ class PrintfulAcountClient{
      * 
      * @returns {promise} {product, variant, error}
      * */
-    async getVariant(id){
+    async getVariant(id: number){
         const url = this.origin+"/products/variant/"+id;
         const response = await axios.get(url)
         const data = await response.data;
@@ -66,7 +72,7 @@ class PrintfulAcountClient{
      * 
      * @returns {promise} {product_id, available_sizes, size_tables, error}
      * */
-    async getSize(id,metric=false){
+    async getSize(id: number,metric=false){
         const url = this.origin+"/products/"+id+"/sizes?unit="+(metric?"cm":"inches");
         const response = await axios.get(url);
         const data = await response.data;
@@ -84,7 +90,7 @@ class PrintfulAcountClient{
      * 
      * @returns {promise} {category, error}
      * */
-    async getCategory(id){
+    async getCategory(id: number){
         const url = this.origin+"/categories/"+id;
         const response = await axios.get(url);
         const data = await response.data;
@@ -108,7 +114,7 @@ class PrintfulAcountClient{
      * 
      * @returns {promise} {products, paging, error}
      */
-    async getSyncProducts(offset=0, limit=20, category_id){
+    async getSyncProducts(offset=0, limit=20, category_id: string){
         const url = this.origin+"/store/products?"+"offset="+offset+"&limit="+limit+(category_id ? "&category_id="+category_id : "");
         const response = await axios.get(url, {headers:this.headers});
         const data = await response.data;
@@ -129,7 +135,7 @@ class PrintfulAcountClient{
      * 
      * @returns {promise} {product, error}
      */
-    async createSyncProduct(sync_product, sync_variants){
+    async createSyncProduct(sync_product: SyncProduct, sync_variants: [SyncVariant]){
         const url = this.origin+"/store/products";
         const response = await axios.post(
             url,
@@ -151,7 +157,7 @@ class PrintfulAcountClient{
      * 
      * @returns {promise} {sync_product, sync_variants, error}
      */
-    async getSyncProduct(id){
+    async getSyncProduct(id: number){
         const url = this.origin+"/store/products/"+id;
         const response = await axios.get(url,{ headers: this.headers });
         const data = await response.data;
@@ -169,7 +175,7 @@ class PrintfulAcountClient{
      * 
      * @returns {promise} {sync_product, sync_variants, error}
      */
-    async deleteSyncProduct(id){
+    async deleteSyncProduct(id: number){
         const url = this.origin+"/store/products/"+id;
         const response = await axios.delete(url,{ headers: this.headers });
         const data = await response.data;
@@ -181,7 +187,7 @@ class PrintfulAcountClient{
         return {sync_product, sync_variants, error: ""};
     }
 
-    async modifySyncProduct(id, sync_product, sync_variants){
+    async modifySyncProduct(id: number, sync_product: OptionalSyncProduct, sync_variants: [OptionalSyncVariant] | []){
         const url = this.origin+"/store/products/"+id;
         const response = await axios.post(
             url,
@@ -202,10 +208,6 @@ class PrintfulAcountClient{
     }
 }
 
-function createPrintfulAcountClient(auth){
+export function createPrintfulAcountClient(auth: string | undefined){
     return new PrintfulAcountClient(auth);
-}
-
-module.exports = {
-    createPrintfulAcountClient
 }

@@ -1,14 +1,8 @@
 # TODO List
-- Make all classes, methods, & properties TS compliant
+
+## Bugs:
+---
+> Client functions always return undefined values, use the following articles to fix: [Link](https://stackoverflow.com/questions/45620694/how-to-return-response-of-axios-in-return)
 
 ## Potential Problems:
 ---
-```
-Problem: Potential problems with feeding parameters for Class Constructors: SyncProduct, SyncVariant, SyncVariantOption, File, FileOption 
-Solution: Introduce TypeScript 
-```
-
-```
-Problem: Potential problems with feeding modifySyncProduct
-Solution: Introduce TypeScript
-```
