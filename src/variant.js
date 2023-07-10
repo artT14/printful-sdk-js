@@ -5,7 +5,7 @@ class SyncVariant{
     /** 
      * @constructs SyncVariant
      * @summary Information about the Sync Variants
-     * @param {number} variant_id - (required) (must be int) Printful Variant ID that this Sync Variant is synced to
+     * @param {int} variant_id - (required) Printful Variant ID that this Sync Variant is synced to
      * @param {[File]} files - (required) Array of attached printfiles / preview images
      * @param {string} retail_price - Retail price that this item is sold for
      * @param {[SyncVariantOption]} options - Array of additional options for the configured product/variant, See Examples: {@link https://developers.printful.com/docs/?_gl=1*1sbmfdi*_ga*NDMzMTM2Mjk0LjE2ODcyMzU3MDc.*_ga_EZ4XVRL864*MTY4ODc3OTM1NC4xMi4xLjE2ODg3ODEwMzYuMTAuMC4w#section/Options Link}

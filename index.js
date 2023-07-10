@@ -6,19 +6,19 @@ const {File, FileOption} = require('./src/file')
 require('dotenv').config()
 
 const Client = createPrintfulAcountClient(process.env.API_AUTH)
-//Client.products()
+//Client.getProducts()
 
-//Client.variant(4018)
+//Client.getVariant(4018)
 
-// Client.product(71)
+// Client.getProduct(71)
 
-// Client.size(71, false)
+// Client.getSize(71, false)
 
-// Client.size(71, true)
+// Client.getSize(71, true)
 
-// Client.category(24)
+// Client.getCategory(24)
 
-// Client.syncProducts()
+// Client.getSyncProducts()
 
 // const sync_product = new SyncProduct("API product custom", "https://picsum.photos/200/300")
 // const files = [
@@ -35,3 +35,5 @@ const Client = createPrintfulAcountClient(process.env.API_AUTH)
 //     new SyncVariant(9575,files, "19.00", options)
 // ]
 // Client.createSyncProduct(sync_product, sync_variants);
+
+// Client.getSyncProduct(313776218);

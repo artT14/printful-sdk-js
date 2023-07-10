@@ -12,7 +12,7 @@ class PrintfulAcountClient{
      * 
      * @returns {promise} {products, error}
      * */
-    async products(){
+    async getProducts(){
         const url = this.origin+"/products";
         const response = await axios.get(url);
         const data = await response.data;
@@ -25,11 +25,11 @@ class PrintfulAcountClient{
     /** 
      * Returns information about a specific product and a list of variants for this product.
      * 
-     * @param {number} id - Product ID.
+     * @param {int} id - Product ID.
      * 
      * @returns {promise} {product, variants, error}
     */
-    async product(id){
+    async getProduct(id){
         const url = this.origin+"/products"+id;
         const response = await axios.get(url)
         const data = await response.data;
@@ -43,11 +43,11 @@ class PrintfulAcountClient{
 
     /** 
      * Returns information about a specific Variant and its Product
-     * @param {number} id - Product ID.
+     * @param {int} id - Product ID.
      * 
      * @returns {promise} {product, variant, error}
      * */
-    async variant(id){
+    async getVariant(id){
         const url = this.origin+"/products/variant/"+id;
         const response = await axios.get(url)
         const data = await response.data;
@@ -61,12 +61,12 @@ class PrintfulAcountClient{
     
     /** 
      * Returns information about the size guide for a specific product.
-     * @param {number} id - Product ID.
+     * @param {int} id - Product ID.
      * @param {boolean} [metric=true] - set true to return sizes in cm as opposed to inches (optional)
      * 
      * @returns {promise} {product_id, available_sizes, size_tables, error}
      * */
-    async size(id,metric=false){
+    async getSize(id,metric=false){
         const url = this.origin+"/products/"+id+"/sizes?unit="+(metric?"cm":"inches");
         const response = await axios.get(url);
         const data = await response.data;
@@ -80,11 +80,11 @@ class PrintfulAcountClient{
 
     /** 
      * Returns information about a specific category.
-     * @param {number} id - Category ID
+     * @param {int} id - Category ID
      * 
      * @returns {promise} {category, error}
      * */
-    async category(id){
+    async getCategory(id){
         const url = this.origin+"/categories/"+id;
         const response = await axios.get(url);
         const data = await response.data;
@@ -100,15 +100,15 @@ class PrintfulAcountClient{
      * Returns a list of Sync Product objects from your custom Printful store.
      * 
      * Params:
-     * @param {number} [offset=0] - Offset for Paging
-     * @param {number} [limit=20] - Limit items for Paging
+     * @param {int} [offset=0] - Offset for Paging
+     * @param {int} [limit=20] - Limit items for Paging
      * ----------------------------------------------------------------
      * Optional Params:
      * @param {string} [category_id] - (Optional) A comma-separated list of Category IDs of the Products that are to be returned
      * 
      * @returns {promise} {products, paging, error}
      */
-    async syncProducts(offset=0, limit=20, category_id){
+    async getSyncProducts(offset=0, limit=20, category_id){
         const url = this.origin+"/store/products?"+"offset="+offset+"&limit="+limit+(category_id ? "&category_id="+category_id : "");
         const response = await axios.get(url, {headers:this.headers});
         const data = await response.data;
@@ -116,6 +116,7 @@ class PrintfulAcountClient{
             return {products: [], paging: {}, error: data.error.message};
         }
         const {result: products, paging} = await data;
+        // console.log(products);
         return {products, paging, error: ""}
     }
 
@@ -136,13 +137,32 @@ class PrintfulAcountClient{
             { headers: this.headers }
         );
         const data = await response.data;
-        console.log(data);
         if (data.code >= 400){
             return {product: {}, error: data.error.message};
         }
         const {result: product} = await data;
+        // console.log(product);
         return {product, error: ""};
     }
+
+    /**
+     * Get information about a single Sync Product and its Sync Variants.
+     * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with @)
+     * 
+     * @returns {promise} {sync_product, sync_variants, error}
+     */
+    async getSyncProduct(id){
+        const url = this.origin+"/store/products/"+id;
+        const response = await axios.get(url,{ headers: this.headers });
+        const data = await response.data;
+        if (data.code >= 400){
+            return {sync_product: {}, sync_variants: [], error: data.error.message};
+        }
+        const {sync_product, sync_variants} = await data.result;
+        // console.log(sync_product, sync_variants);
+        return {sync_product, sync_variants, error: ""};
+    }
+
     test(){
         console.log("Printful Client works!");
     }
