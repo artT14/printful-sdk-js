@@ -1,5 +1,5 @@
 # TODO List
-- Edit All Methods & Classes
+- Make all classes, methods, & properties TS compliant
 
 ## Potential Problems:
 ---
