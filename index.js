@@ -1,4 +1,4 @@
-const {createPrintfulAcountClient} = require('./printful/client') 
+const {createPrintfulAcountClient} = require('./src/client') 
 
 require('dotenv').config()
 

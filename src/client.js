@@ -7,7 +7,8 @@ class PrintfulAcountClient{
         this.headers = {Authorization: "Bearer " + this.auth};
     }
 
-    /** Returns list of Products available in the Printful */
+    /** 
+     * Returns list of Products available in the Printful */
     async products(){
         const response = await axios.get(this.origin+"/products");
         const data = await response.data;
@@ -80,21 +81,25 @@ class PrintfulAcountClient{
 
     /**
      * Returns a list of Sync Product objects from your custom Printful store.
-     * @param {string} [category_id] - (Optional) A comma-separated list of Category IDs of the Products that are to be returned 
+     * 
+     * Params:
+     * @param {number} [offset=0] - Offset for Paging
+     * @param {number} [limit=20] - Limit items for Paging
      * ----------------------------------------------------------------
-     * @todo Implement Paging
+     * Optional Params:
+     * @param {string} [category_id] - (Optional) A comma-separated list of Category IDs of the Products that are to be returned 
      */
-    async syncProducts(category_id){
+    async syncProducts(offset=0, limit=20, category_id){
         const response = await axios.get(
-            this.origin+"/store/products"+(category_id ? "?category_id="+category_id : ""),
+            this.origin+"/store/products?"+"offset="+offset+"&limit="+limit+(category_id ? "&category_id="+category_id : ""),
             {headers:this.headers}
         );
         const data = await response.data;
         if (data.code >= 400){
-            return {products: [], error: data.error.message};
+            return {products: [], paging: {}, error: data.error.message};
         }
-        const products = await data.result;
-        return {products, error: ""}
+        const {result: products, paging} = await data;
+        return {products, paging, pagingerror: ""}
     }
 
     test(){
