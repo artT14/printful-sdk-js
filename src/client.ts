@@ -1,145 +1,22 @@
 import fetch from 'cross-fetch';
+import OAuth from './lib/oauth';
+import Catalog from './lib/catalog';
+import type { Headers } from './types/headers';
 import type { SyncProduct, OptionalSyncProduct } from './types/product'
 import type { SyncVariant, OptionalSyncVariant } from './types/variant';
 import type { NewOrder, OrderStatus } from './types/order';
 
+
 export class PrintfulAcountClient{
-    origin = "https://api.printful.com"
-    protected auth: string | undefined;
-    protected headers: {
-        Authorization: string
-    }
+    protected origin = "https://api.printful.com";
+    protected headers: Headers;
+    public oauth: OAuth;
+    public catalog: Catalog;
+
     constructor(auth: string | undefined){
-        this.auth = auth;
-        this.headers = {Authorization: "Bearer " + this.auth};
-    }
-
-//------------------------------------------------------------------------------------------------------//
-// I. OAUTH API
-//------------------------------------------------------------------------------------------------------//
-    async getScopes(){
-        const url = this.origin+"/oauth/scopes";
-        const response = await fetch(url,{headers: this.headers});
-        const data = await response.json();
-        const {result, code, error} = await data;
-        if (code >= 400){
-            return {scopes: [], error};
-        }
-        const {scopes} = await result;
-        return {scopes, error: {}};
-    }
-
-//------------------------------------------------------------------------------------------------------//
-// II. CATALOG API
-//------------------------------------------------------------------------------------------------------//
-
-    /** 
-     * Returns list of Products available in the Printful
-     * 
-     * @returns {promise} {products, error}
-     * */
-    async getProducts(){
-        const url = this.origin+"/products";
-        const response = await fetch(url);
-        const data = await response.json();
-        const {result, code, error} = await data;
-        if (code >= 400){
-            return {products: [], error};
-        }
-        return {products: result, error: {}};
-    }
-
-    /** 
-     * Returns information about a specific product and a list of variants for this product.
-     * 
-     * @param {int} id - Product ID.
-     * 
-     * @returns {promise} {product, variants, error}
-    */
-    async getProduct(id: number){
-        const url = this.origin+"/products/"+id;
-        const response = await fetch(url);
-        const data = await response.json();
-        const {result, code, error} = await data;
-        if (code >= 400){
-            return {product: {}, variants:[], error};
-        }
-        const {product, variants} = await result;
-        return {product, variants, error: {}};
-    }
-
-    /** 
-     * Returns information about a specific Variant and its Product
-     * @param {int} id - Product ID.
-     * 
-     * @returns {promise} {product, variant, error}
-     * */
-    async getVariant(id: number){
-        const url = this.origin+"/products/variant/"+id;
-        const response = await fetch(url);
-        const data = await response.json();
-        const {result, code, error} = await data;
-        if (code >= 400){
-            return {product: {}, variant:{}, error};
-        }
-        const {product, variant} = await result;
-        return {product, variant, error: {}};
-    }
-    
-    /** 
-     * Returns information about the size guide for a specific product.
-     * @param {int} id - Product ID.
-     * @param {boolean} [metric=true] - set true to return sizes in cm as opposed to inches (optional)
-     * 
-     * @returns {promise} {product_id, available_sizes, size_tables, error}
-     * */
-    async getSize(id: number,metric=false){
-        const url = this.origin+"/products/"+id+"/sizes?unit="+(metric?"cm":"inches");
-        const response = await fetch(url);
-        const data = await response.json();
-        const {result, code, error} = await data;
-        if (code >= 400){
-            return {product_id: -1, available_sizes:[], size_tables:[], error};
-        }
-        const {product_id, available_sizes, size_tables} = await result;
-        return {product_id, available_sizes, size_tables, error: {}};
-    }
-
-    /**
-     * Returns list of Catalog Categories available in the Printful
-     * 
-     * @returns {promise}
-     */
-    async getCategories(){
-        const url = this.origin+"/categories/";
-        const response = await fetch(url);
-        const data = await response.json();
-        const {result, code, error} = await data;
-        if (code >= 400){
-            return {categories: [], error};
-        }
-        const {categories} = await result;
-        // console.log(category);
-        return {categories, error: {}};
-    }
-
-    /** 
-     * Returns information about a specific category.
-     * @param {int} id - Category ID
-     * 
-     * @returns {promise} {category, error}
-     * */
-    async getCategory(id: number){
-        const url = this.origin+"/categories/"+id;
-        const response = await fetch(url);
-        const data = await response.json();
-        const {result, code, error} = await data;
-        if (code >= 400){
-            return {category: {}, error};
-        }
-        const {category} = await result;
-        // console.log(category);
-        return {category, error: {}};
+        this.headers = {Authorization: "Bearer " + (auth || "")};
+        this.oauth = new OAuth(this.headers, this.origin);
+        this.catalog = new Catalog(this.headers, this.origin);
     }
 
 //------------------------------------------------------------------------------------------------------//
