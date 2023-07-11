@@ -1,4 +1,3 @@
-const axios = require('axios')
 import fetch from 'cross-fetch';
 import type { SyncProduct, OptionalSyncProduct } from './types/product'
 import type { SyncVariant, OptionalSyncVariant } from './types/variant';
