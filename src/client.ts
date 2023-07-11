@@ -419,6 +419,7 @@ export class PrintfulAcountClient{
     /**
      * Returns list of order objects from your store
      * 
+     * QUERY PARAMS:
      * @param {string} status - Filter by order status
      * @param {int} offset -  Result set offset
      * @param {int} limit -  Number of items per page (max 100)
@@ -438,6 +439,16 @@ export class PrintfulAcountClient{
         return {orders, paging, error: {}};
     }
 
+    /**
+     * Creates a new order and optionally submits it for fulfillment
+     * 
+     * QUERY PARAMS:
+     * @param {NewOrder} newOrder - information about new order
+     * @param {boolean} confirm - Automatically submit the newly created order for fulfillment (skip the Draft phase)
+     * @param {boolean} update_existing - Try to update existing order if an order with the specified external_id already exists
+     * 
+     * @returns {promise} {order, error}
+     */
     async createOrder(newOrder: NewOrder, confirm=false, update_existing=false){
         const url = this.origin+"/orders"+"?confirm="+confirm+"&update_existing="+update_existing;
         const response = await fetch(url, {
@@ -453,63 +464,116 @@ export class PrintfulAcountClient{
         return {order, error};
     }
 
+    async getOrder(){}
+
+    async cancelOrder(){}
+
+    async updateOrder(){}
+
+    async confirmOrder(){}
+
+    async estimateOrderCost(){}
 //------------------------------------------------------------------------------------------------------//
 // VI. FILE LIBRARY API
 //------------------------------------------------------------------------------------------------------//
 
+    async addFile(){}
+
+    async getFile(){}
+
+    async getThreadColors(){}
 
 //------------------------------------------------------------------------------------------------------//
 // VII. SHIPPING RATE API
 //------------------------------------------------------------------------------------------------------//
 
+    async calculateShippint(){}
 
 //------------------------------------------------------------------------------------------------------//
 // VIII. ECOMMERCE PLATFORM SYNC API
 //------------------------------------------------------------------------------------------------------//
 
+    async getEcommProducts(){}
+
+    async getEcommProduct(){}
+
+    async deleteEcommProduct(){}
+
+    async getEcommVariant(){}
+
+    async modifyEcommVariant(){}
+
+    async deleteEcommVariant(){}
 
 //------------------------------------------------------------------------------------------------------//
 // IX. COUNTRY/STATE CODE API
 //------------------------------------------------------------------------------------------------------//
 
-
+    async getCountryList(){}
 
 //------------------------------------------------------------------------------------------------------//
 // X. TAX RATE API
 //------------------------------------------------------------------------------------------------------//
 
+    async getCountryTexList(){}
 
+    async calcTax(){}
 
 //------------------------------------------------------------------------------------------------------//
 // XI. WEBHOOK API
 //------------------------------------------------------------------------------------------------------//
 
+    async getWebhookConfig(){}
+
+    async setWebhookConfig(){}
+
+    async disableWebhookSupport(){}
 
 //------------------------------------------------------------------------------------------------------//
 // XII. STORE INFORMATION API
 //------------------------------------------------------------------------------------------------------//
 
+    async changePackingSlip(){}
+
+    async getStoresInfo(){}
+
+    async getStoreInfo(){}
 
 //------------------------------------------------------------------------------------------------------//
 // XIII. MOCKUP GENERATOR API
 //------------------------------------------------------------------------------------------------------//
 
+    async createMockupTask(){}
+
+    async getProductVariantPrintFiles(){}
+
+    async getMockupTaskResult(){}
+
+    async getLayoutTemplates(){}
 
 //------------------------------------------------------------------------------------------------------//
 // XIV. WAREHOUSE PRODUCTS API
 //------------------------------------------------------------------------------------------------------//
 
+    async getWarehouseProducts(){}
+
+    async getWarehouseProduct(){}
 
 //------------------------------------------------------------------------------------------------------//
 // XV. REPORTS API
 //------------------------------------------------------------------------------------------------------//
 
+    async getStats(){}
 
 //------------------------------------------------------------------------------------------------------//
 // XVI. APPROVAL SHEETS API
 //------------------------------------------------------------------------------------------------------//
 
+    async getApprovalSheets(){}
 
+    async approveDesign(){}
+
+    async changeApprovalSheet(){}
 
 }
 
