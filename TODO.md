@@ -1,4 +1,10 @@
 # TODO List
+---
+> Keep Adding methods
+
+## Improvements
+---
+> Add JSDOC comments
 
 ## Bugs:
 ---
