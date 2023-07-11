@@ -1,11 +1,12 @@
 # TODO List
 ---
-> Keep Adding methods
+> REFACTOR: Factor out different API types and turn main class into composition
+> DEVELOP: Keep Adding methods
 
 ## Improvements
 ---
-> Factor out different API types and turn main class into composition
-> Add JSDOC comments
+> DOCUMENT: Add JSDOC comments
+> TEST: Set up Jest Testing Lab
 
 ## Bugs:
 ---
