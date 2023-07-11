@@ -4,6 +4,7 @@
 
 ## Improvements
 ---
+> Factor out different API types and turn main class into composition
 > Add JSDOC comments
 
 ## Bugs:

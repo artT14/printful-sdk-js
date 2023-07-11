@@ -14,7 +14,7 @@ export class PrintfulAcountClient{
     }
 
 //------------------------------------------------------------------------------------------------------//
-// OAUTH API
+// I. OAUTH API
 //------------------------------------------------------------------------------------------------------//
     async getScopes(){
         const url = this.origin+"/oauth/scopes";
@@ -29,7 +29,7 @@ export class PrintfulAcountClient{
     }
 
 //------------------------------------------------------------------------------------------------------//
-// CATALOG API
+// II. CATALOG API
 //------------------------------------------------------------------------------------------------------//
 
     /** 
@@ -142,7 +142,7 @@ export class PrintfulAcountClient{
     }
 
 //------------------------------------------------------------------------------------------------------//
-// PRODUCTS API
+// III. PRODUCTS API
 //------------------------------------------------------------------------------------------------------//
 
     /**
@@ -326,7 +326,7 @@ export class PrintfulAcountClient{
      * Creates a new Sync Variant for an existing Sync Product
      * {@link https://developers.printful.com/docs/?_gl=1*1sbmfdi*_ga*NDMzMTM2Mjk0LjE2ODcyMzU3MDc.*_ga_EZ4XVRL864*MTY4ODc3OTM1NC4xMi4xLjE2ODg3ODEwMzYuMTAuMC4w#section/Products-API-examples/Create-a-new-Sync-Variant See Examples}
      * 
-     * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with @)
+     * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
      * @param {SyncVariant} sync_variant - Information about the Sync Variant
      * 
      * @returns {promise} {variant, error}
@@ -347,75 +347,132 @@ export class PrintfulAcountClient{
     }
 
 //------------------------------------------------------------------------------------------------------//
-// PRODUCT TEMPLATES API
+// IV. PRODUCT TEMPLATES API
+//------------------------------------------------------------------------------------------------------//
+
+    /**
+     * Returns a list of templates.
+     * 
+     * Query Params:
+     * @param {int} offset - Result set offset
+     * @param {int} limit - Number of items per page (max 100)
+     * 
+     * @returns {promise} {templates,paging,error}
+     */
+    async getProductTemplates(offset=0,limit=20){
+        const url = this.origin+"/product-templates"+"?offset="+offset+"&limit="+limit;
+        const response = await fetch(url, {headers: this.headers});
+        const data = await response.json();
+        const {code, result, paging, error} = await data;
+        if (code >= 400){
+            return {templates: [], error};
+        }
+        const {items: templates} = await result;
+        return {templates,paging,error:{}};
+        
+    }
+
+    /**
+     * Get information about a single product template
+     * 
+     * @param {int|string} id - Template ID (integer) or External Product ID (if prefixed with `@`)
+     * 
+     * @returns {promise} {template,error}
+     */
+    async getProductTemplate(id:number|string){
+        const url = this.origin+"/product-templates/"+id;
+        const response = await fetch(url, {headers: this.headers});
+        const data = await response.json();
+        const {code, result, error} = await data;
+        if (code >= 400){
+            return {template: {}, error};
+        }
+        return {template: result, error: {}};
+    }
+
+    /**
+     * Delete product template by ID or External Product ID
+     * 
+     * @param {int|string} id  - Template ID (integer) or External Product ID (if prefixed with `@`)
+     * 
+     * @returns {promise} {success, error}
+     */
+    async deleteProductTemplate(id:number|string){
+        const url = this.origin+"/product-templates/"+id;
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: this.headers,
+        });
+        const data = await response.json();
+        const {code, result, error} = await data;
+        if (code >= 400){
+            return {success: false, error};
+        }
+        const {success} = await result;
+        return {success, error: {}};
+    }
+//------------------------------------------------------------------------------------------------------//
+// V. ORDERS API
 //------------------------------------------------------------------------------------------------------//
 
 
 //------------------------------------------------------------------------------------------------------//
-// ORDERS API
+// VI. FILE LIBRARY API
 //------------------------------------------------------------------------------------------------------//
 
 
 //------------------------------------------------------------------------------------------------------//
-// FILE LIBRARY API
+// VII. SHIPPING RATE API
 //------------------------------------------------------------------------------------------------------//
 
 
 //------------------------------------------------------------------------------------------------------//
-// SHIPPING RATE API
+// VIII. ECOMMERCE PLATFORM SYNC API
 //------------------------------------------------------------------------------------------------------//
 
 
 //------------------------------------------------------------------------------------------------------//
-// ECOMMERCE PLATFORM SYNC API
-//------------------------------------------------------------------------------------------------------//
-
-
-//------------------------------------------------------------------------------------------------------//
-// COUNTRY/STATE CODE API
+// IX. COUNTRY/STATE CODE API
 //------------------------------------------------------------------------------------------------------//
 
 
 
 //------------------------------------------------------------------------------------------------------//
-// TAX RATE API
+// X. TAX RATE API
 //------------------------------------------------------------------------------------------------------//
 
 
 
 //------------------------------------------------------------------------------------------------------//
-// WEBHOOK API
+// XI. WEBHOOK API
 //------------------------------------------------------------------------------------------------------//
 
 
 //------------------------------------------------------------------------------------------------------//
-// STORE INFORMATION API
+// XII. STORE INFORMATION API
 //------------------------------------------------------------------------------------------------------//
 
 
 //------------------------------------------------------------------------------------------------------//
-// MOCKUP GENERATOR API
+// XIII. MOCKUP GENERATOR API
 //------------------------------------------------------------------------------------------------------//
 
 
 //------------------------------------------------------------------------------------------------------//
-// WAREHOUSE PRODUCTS API
+// XIV. WAREHOUSE PRODUCTS API
 //------------------------------------------------------------------------------------------------------//
 
 
 //------------------------------------------------------------------------------------------------------//
-// REPORTS API
+// XV. REPORTS API
 //------------------------------------------------------------------------------------------------------//
 
 
 //------------------------------------------------------------------------------------------------------//
-// APPROVAL SHEETS API
+// XVI. APPROVAL SHEETS API
 //------------------------------------------------------------------------------------------------------//
 
 
-//------------------------------------------------------------------------------------------------------//
-// OAUTH API
-//------------------------------------------------------------------------------------------------------//
 
 }
 
