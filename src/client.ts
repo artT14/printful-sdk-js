@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import type { SyncProduct, OptionalSyncProduct } from './types/product'
 import type { SyncVariant, OptionalSyncVariant } from './types/variant';
+import type { NewOrder, OrderStatus } from './types/order';
 
 export class PrintfulAcountClient{
     origin = "https://api.printful.com"
@@ -163,7 +164,7 @@ export class PrintfulAcountClient{
         const data = await response.json();
         const {result: products, paging, code, error} = await data;
         if (code >= 400){
-            return {products: [], paging: {}, error};
+            return {products: [], paging: {offset,limit}, error};
         }
         return {products, paging, error: {}}
     }
@@ -365,7 +366,7 @@ export class PrintfulAcountClient{
         const data = await response.json();
         const {code, result, paging, error} = await data;
         if (code >= 400){
-            return {templates: [], error};
+            return {templates: [], paging: {offset, limit}, error};
         }
         const {items: templates} = await result;
         return {templates,paging,error:{}};
@@ -415,6 +416,42 @@ export class PrintfulAcountClient{
 // V. ORDERS API
 //------------------------------------------------------------------------------------------------------//
 
+    /**
+     * Returns list of order objects from your store
+     * 
+     * @param {string} status - Filter by order status
+     * @param {int} offset -  Result set offset
+     * @param {int} limit -  Number of items per page (max 100)
+     * 
+     * @returns {promise} {orders, paging, error}
+     */
+    async getOrders(offset=0, limit=20, status: OrderStatus){
+        const url = this.origin+"/orders"+"?offset="+offset+"&limit="+limit+"&status="+status;
+        const response = await fetch(url, {
+            headers: this.headers,
+        });
+        const data = await response.json();
+        const {code, result: orders, paging, error} = await data;
+        if (code >= 400){
+            return {orders: [], paging: {offset, limit}, error};
+        }
+        return {orders, paging, error: {}};
+    }
+
+    async createOrder(newOrder: NewOrder, confirm=false, update_existing=false){
+        const url = this.origin+"/orders"+"?confirm="+confirm+"&update_existing="+update_existing;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: this.headers,
+            body: JSON.stringify(newOrder)
+        });
+        const data = await response.json();
+        const {code, result: order, error} = await data;
+        if (code >= 400){
+            return {order: {}, error};
+        }
+        return {order, error};
+    }
 
 //------------------------------------------------------------------------------------------------------//
 // VI. FILE LIBRARY API

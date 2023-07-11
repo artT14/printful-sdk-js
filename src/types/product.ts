@@ -11,3 +11,10 @@ export type OptionalSyncProduct = {
     thumbnail?: string,
     is_ignored?: boolean
 }
+
+export type ProductVariant = {
+    variant_id?: number,
+    product_id?: number,
+    image?: string,
+    name?: string
+}
