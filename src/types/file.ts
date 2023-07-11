@@ -1,7 +1,7 @@
 export type File = {
     type?: string,
     url: string,
-    options?: [FileOptions],
+    options?: Array<FileOptions>,
     filename?: string,
     visible?: boolean
 }

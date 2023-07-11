@@ -65,15 +65,8 @@ var Client = (0, client_1.createPrintfulAcountClient)(process.env.API_AUTH);
 // Client.deleteSyncProduct(313776218);
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var res;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, Client.getProducts()];
-                case 1:
-                    res = _a.sent();
-                    console.log(res);
-                    return [2 /*return*/];
-            }
+            return [2 /*return*/];
         });
     });
 }

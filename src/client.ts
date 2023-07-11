@@ -1,4 +1,5 @@
 const axios = require('axios')
+import fetch from 'cross-fetch';
 import type { SyncProduct, OptionalSyncProduct } from './types/product'
 import type { SyncVariant, OptionalSyncVariant } from './types/variant';
 
@@ -20,12 +21,13 @@ export class PrintfulAcountClient{
      * */
     async getProducts(){
         const url = this.origin+"/products";
-        const response = await axios.get(url);
-        const data = await response.data;
-        if (data.code >= 400){
-            return {products: [], error: data.error.message};
+        const response = await fetch(url);
+        const data = await response.json();
+        const {result, code, error} = await data;
+        if (code >= 400){
+            return {products: [], error};
         }
-        return {products: data.results, error: ""};
+        return {products: result, error: {}};
     }
 
     /** 
@@ -36,15 +38,15 @@ export class PrintfulAcountClient{
      * @returns {promise} {product, variants, error}
     */
     async getProduct(id: number){
-        const url = this.origin+"/products"+id;
-        const response = await axios.get(url)
-        const data = await response.data;
-        if (data.code >= 400){
-            return {product: {}, variants:[], error: data.error.message};
+        const url = this.origin+"/products/"+id;
+        const response = await fetch(url);
+        const data = await response.json();
+        const {result, code, error} = await data;
+        if (code >= 400){
+            return {product: {}, variants:[], error};
         }
-        const {product, variants} = data.result;
-        // console.log(product,variants);
-        return {product, variants, error: ""};
+        const {product, variants} = await result;
+        return {product, variants, error: {}};
     }
 
     /** 
@@ -55,14 +57,14 @@ export class PrintfulAcountClient{
      * */
     async getVariant(id: number){
         const url = this.origin+"/products/variant/"+id;
-        const response = await axios.get(url)
-        const data = await response.data;
-        if (data.code >= 400){
-            return {product: {}, variant:{}, error: data.error.message};
+        const response = await fetch(url);
+        const data = await response.json();
+        const {result, code, error} = await data;
+        if (code >= 400){
+            return {product: {}, variant:{}, error};
         }
-        const {product, variant} = data.result;
-        // console.log(product,variant);
-        return {product, variant, error: ""};
+        const {product, variant} = await result;
+        return {product, variant, error: {}};
     }
     
     /** 
@@ -74,14 +76,32 @@ export class PrintfulAcountClient{
      * */
     async getSize(id: number,metric=false){
         const url = this.origin+"/products/"+id+"/sizes?unit="+(metric?"cm":"inches");
-        const response = await axios.get(url);
-        const data = await response.data;
-        if (data.code >= 400){
-            return {product_id: -1, available_sizes:[], size_tables:[], error: data.error.message};
+        const response = await fetch(url);
+        const data = await response.json();
+        const {result, code, error} = await data;
+        if (code >= 400){
+            return {product_id: -1, available_sizes:[], size_tables:[], error};
         }
-        const {product_id, available_sizes, size_tables} = await data.result;
-        console.log(product_id, available_sizes, size_tables);
-        return {product_id, available_sizes, size_tables, error: ""};
+        const {product_id, available_sizes, size_tables} = await result;
+        return {product_id, available_sizes, size_tables, error: {}};
+    }
+
+    /**
+     * Returns list of Catalog Categories available in the Printful
+     * 
+     * @returns {promise}
+     */
+    async getCategories(){
+        const url = this.origin+"/categories/";
+        const response = await fetch(url);
+        const data = await response.json();
+        const {result, code, error} = await data;
+        if (code >= 400){
+            return {categories: [], error};
+        }
+        const {categories} = await result;
+        // console.log(category);
+        return {categories, error: {}};
     }
 
     /** 
@@ -92,14 +112,15 @@ export class PrintfulAcountClient{
      * */
     async getCategory(id: number){
         const url = this.origin+"/categories/"+id;
-        const response = await axios.get(url);
-        const data = await response.data;
-        if (data.code >= 400){
-            return {category: {}, error: data.error.message};
+        const response = await fetch(url);
+        const data = await response.json();
+        const {result, code, error} = await data;
+        if (code >= 400){
+            return {category: {}, error};
         }
-        const {category} = await data.result;
+        const {category} = await result;
         // console.log(category);
-        return {category, error: ""};
+        return {category, error: {}};
     }
 
     /**
@@ -114,16 +135,15 @@ export class PrintfulAcountClient{
      * 
      * @returns {promise} {products, paging, error}
      */
-    async getSyncProducts(offset=0, limit=20, category_id: string){
+    async getSyncProducts(offset=0, limit=20, category_id=""){
         const url = this.origin+"/store/products?"+"offset="+offset+"&limit="+limit+(category_id ? "&category_id="+category_id : "");
-        const response = await axios.get(url, {headers:this.headers});
-        const data = await response.data;
-        if (data.code >= 400){
-            return {products: [], paging: {}, error: data.error.message};
+        const response = await fetch(url, {headers:this.headers});
+        const data = await response.json();
+        const {result: products, paging, code, error} = await data;
+        if (code >= 400){
+            return {products: [], paging: {}, error};
         }
-        const {result: products, paging} = await data;
-        // console.log(products);
-        return {products, paging, error: ""}
+        return {products, paging, error: {}}
     }
 
     /**
@@ -135,20 +155,19 @@ export class PrintfulAcountClient{
      * 
      * @returns {promise} {product, error}
      */
-    async createSyncProduct(sync_product: SyncProduct, sync_variants: [SyncVariant]){
+    async createSyncProduct(sync_product: SyncProduct, sync_variants: Array<SyncVariant>){
         const url = this.origin+"/store/products";
-        const response = await axios.post(
-            url,
-            { sync_product, sync_variants },
-            { headers: this.headers }
-        );
-        const data = await response.data;
-        if (data.code >= 400){
-            return {product: {}, error: data.error.message};
+        const response = await fetch(url, {
+            method: "POST",
+            headers: this.headers,
+            body: JSON.stringify({sync_product, sync_variants})
+        });
+        const data = await response.json();
+        const {result: product, code, error} = await data;
+        if (code >= 400){
+            return {product: {}, error};
         }
-        const {result: product} = await data;
-        // console.log(product);
-        return {product, error: ""};
+        return {product, error: {}};
     }
 
     /**
@@ -159,14 +178,15 @@ export class PrintfulAcountClient{
      */
     async getSyncProduct(id: number){
         const url = this.origin+"/store/products/"+id;
-        const response = await axios.get(url,{ headers: this.headers });
-        const data = await response.data;
-        if (data.code >= 400){
-            return {sync_product: {}, sync_variants: [], error: data.error.message};
+        const response = await fetch(url, {headers:this.headers});
+        const data = await response.json();
+        const {result, code, error} = await data;
+        if (code >= 400){
+            return {sync_product: {}, sync_variants: [], error};
         }
-        const {sync_product, sync_variants} = await data.result;
+        const {sync_product, sync_variants} = await result;
         // console.log(sync_product, sync_variants);
-        return {sync_product, sync_variants, error: ""};
+        return {sync_product, sync_variants, error: {}};
     }
 
     /**
@@ -177,30 +197,34 @@ export class PrintfulAcountClient{
      */
     async deleteSyncProduct(id: number){
         const url = this.origin+"/store/products/"+id;
-        const response = await axios.delete(url,{ headers: this.headers });
-        const data = await response.data;
-        if (data.code >= 400){
-            return {sync_product: {}, sync_variants: [], error: data.error.message};
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers:this.headers
+        });
+        const data = await response.json();
+        console.log(data);
+        const {result, code, error} = await data;
+        if (code >= 400){
+            return {sync_product: {}, sync_variants: [], error};
         }
-        const {sync_product, sync_variants} = await data.result;
+        const {sync_product, sync_variants} = await result;
         // console.log(sync_product, sync_variants);
-        return {sync_product, sync_variants, error: ""};
+        return {sync_product, sync_variants, error: {}};
     }
 
-    async modifySyncProduct(id: number, sync_product: OptionalSyncProduct, sync_variants: [OptionalSyncVariant] | []){
+    async modifySyncProduct(id: number, sync_product: OptionalSyncProduct, sync_variants: Array<OptionalSyncVariant>){
         const url = this.origin+"/store/products/"+id;
-        const response = await axios.post(
-            url,
-            { sync_product, sync_variants },
-            { headers: this.headers }
-        );
-        const data = await response.data;
-        if (data.code >= 400){
-            return {product: {}, error: data.error.message};
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: this.headers,
+            body: JSON.stringify({sync_product, sync_variants})
+        });
+        const data = await response.json();
+        const {result: product, code, error} = await data;
+        if (code >= 400){
+            return {product: {}, error};
         }
-        const {result: product} = await data;
-        // console.log(product);
-        return {product, error: ""};
+        return {product, error: {}};
     }
 
     test(){

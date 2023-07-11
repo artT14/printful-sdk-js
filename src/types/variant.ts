@@ -6,8 +6,8 @@ export type SyncVariant = {
     retail_price?: string,
     is_ignored?: boolean,
     sku?: string,
-    files: [File],
-    options: [SyncVariantOption]
+    files: Array<File>,
+    options?: Array<SyncVariantOption>
 }
 
 export type OptionalSyncVariant = {
@@ -16,11 +16,11 @@ export type OptionalSyncVariant = {
     retail_price?: string,
     is_ignored?: boolean,
     sku?: string,
-    files?: [File],
-    options?: [SyncVariantOption]
+    files?: Array<File>,
+    options?: Array<SyncVariantOption>
 }
 
 export type SyncVariantOption = {
     id: string,
-    value: string
+    value: string | Array<string>
 }

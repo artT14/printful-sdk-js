@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createPrintfulAcountClient = exports.PrintfulAcountClient = void 0;
 var axios = require('axios');
+var cross_fetch_1 = require("cross-fetch");
 var PrintfulAcountClient = /** @class */ (function () {
     function PrintfulAcountClient(auth) {
         this.origin = "https://api.printful.com";
@@ -51,22 +52,24 @@ var PrintfulAcountClient = /** @class */ (function () {
      * */
     PrintfulAcountClient.prototype.getProducts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var url, response, data, _a, result, code, error;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         url = this.origin + "/products";
-                        return [4 /*yield*/, axios.get(url)];
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url)];
                     case 1:
-                        response = _a.sent();
-                        return [4 /*yield*/, response.data];
+                        response = _b.sent();
+                        return [4 /*yield*/, response.json()];
                     case 2:
-                        data = _a.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { products: [], error: data.error.message }];
+                        data = _b.sent();
+                        return [4 /*yield*/, data];
+                    case 3:
+                        _a = _b.sent(), result = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { products: [], error: error }];
                         }
-                        console.log(data);
-                        return [2 /*return*/, { products: data.results, error: "" }];
+                        return [2 /*return*/, { products: result, error: {} }];
                 }
             });
         });
@@ -80,23 +83,27 @@ var PrintfulAcountClient = /** @class */ (function () {
     */
     PrintfulAcountClient.prototype.getProduct = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data, _a, product, variants;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var url, response, data, _a, result, code, error, _b, product, variants;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        url = this.origin + "/products" + id;
-                        return [4 /*yield*/, axios.get(url)];
+                        url = this.origin + "/products/" + id;
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url)];
                     case 1:
-                        response = _b.sent();
-                        return [4 /*yield*/, response.data];
+                        response = _c.sent();
+                        return [4 /*yield*/, response.json()];
                     case 2:
-                        data = _b.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { product: {}, variants: [], error: data.error.message }];
+                        data = _c.sent();
+                        return [4 /*yield*/, data];
+                    case 3:
+                        _a = _c.sent(), result = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { product: {}, variants: [], error: error }];
                         }
-                        _a = data.result, product = _a.product, variants = _a.variants;
-                        // console.log(product,variants);
-                        return [2 /*return*/, { product: product, variants: variants, error: "" }];
+                        return [4 /*yield*/, result];
+                    case 4:
+                        _b = _c.sent(), product = _b.product, variants = _b.variants;
+                        return [2 /*return*/, { product: product, variants: variants, error: {} }];
                 }
             });
         });
@@ -109,23 +116,27 @@ var PrintfulAcountClient = /** @class */ (function () {
      * */
     PrintfulAcountClient.prototype.getVariant = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data, _a, product, variant;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var url, response, data, _a, result, code, error, _b, product, variant;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         url = this.origin + "/products/variant/" + id;
-                        return [4 /*yield*/, axios.get(url)];
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url)];
                     case 1:
-                        response = _b.sent();
-                        return [4 /*yield*/, response.data];
+                        response = _c.sent();
+                        return [4 /*yield*/, response.json()];
                     case 2:
-                        data = _b.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { product: {}, variant: {}, error: data.error.message }];
+                        data = _c.sent();
+                        return [4 /*yield*/, data];
+                    case 3:
+                        _a = _c.sent(), result = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { product: {}, variant: {}, error: error }];
                         }
-                        _a = data.result, product = _a.product, variant = _a.variant;
-                        // console.log(product,variant);
-                        return [2 /*return*/, { product: product, variant: variant, error: "" }];
+                        return [4 /*yield*/, result];
+                    case 4:
+                        _b = _c.sent(), product = _b.product, variant = _b.variant;
+                        return [2 /*return*/, { product: product, variant: variant, error: {} }];
                 }
             });
         });
@@ -140,25 +151,60 @@ var PrintfulAcountClient = /** @class */ (function () {
     PrintfulAcountClient.prototype.getSize = function (id, metric) {
         if (metric === void 0) { metric = false; }
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data, _a, product_id, available_sizes, size_tables;
+            var url, response, data, _a, result, code, error, _b, product_id, available_sizes, size_tables;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        url = this.origin + "/products/" + id + "/sizes?unit=" + (metric ? "cm" : "inches");
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url)];
+                    case 1:
+                        response = _c.sent();
+                        return [4 /*yield*/, response.json()];
+                    case 2:
+                        data = _c.sent();
+                        return [4 /*yield*/, data];
+                    case 3:
+                        _a = _c.sent(), result = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { product_id: -1, available_sizes: [], size_tables: [], error: error }];
+                        }
+                        return [4 /*yield*/, result];
+                    case 4:
+                        _b = _c.sent(), product_id = _b.product_id, available_sizes = _b.available_sizes, size_tables = _b.size_tables;
+                        return [2 /*return*/, { product_id: product_id, available_sizes: available_sizes, size_tables: size_tables, error: {} }];
+                }
+            });
+        });
+    };
+    /**
+     * Returns list of Catalog Categories available in the Printful
+     *
+     * @returns {promise}
+     */
+    PrintfulAcountClient.prototype.getCategories = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var url, response, data, _a, result, code, error, categories;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        url = this.origin + "/products/" + id + "/sizes?unit=" + (metric ? "cm" : "inches");
-                        return [4 /*yield*/, axios.get(url)];
+                        url = this.origin + "/categories/";
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url)];
                     case 1:
                         response = _b.sent();
-                        return [4 /*yield*/, response.data];
+                        return [4 /*yield*/, response.json()];
                     case 2:
                         data = _b.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { product_id: -1, available_sizes: [], size_tables: [], error: data.error.message }];
-                        }
-                        return [4 /*yield*/, data.result];
+                        return [4 /*yield*/, data];
                     case 3:
-                        _a = _b.sent(), product_id = _a.product_id, available_sizes = _a.available_sizes, size_tables = _a.size_tables;
-                        console.log(product_id, available_sizes, size_tables);
-                        return [2 /*return*/, { product_id: product_id, available_sizes: available_sizes, size_tables: size_tables, error: "" }];
+                        _a = _b.sent(), result = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { categories: [], error: error }];
+                        }
+                        return [4 /*yield*/, result];
+                    case 4:
+                        categories = (_b.sent()).categories;
+                        // console.log(category);
+                        return [2 /*return*/, { categories: categories, error: {} }];
                 }
             });
         });
@@ -171,25 +217,28 @@ var PrintfulAcountClient = /** @class */ (function () {
      * */
     PrintfulAcountClient.prototype.getCategory = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data, category;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var url, response, data, _a, result, code, error, category;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         url = this.origin + "/categories/" + id;
-                        return [4 /*yield*/, axios.get(url)];
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url)];
                     case 1:
-                        response = _a.sent();
-                        return [4 /*yield*/, response.data];
+                        response = _b.sent();
+                        return [4 /*yield*/, response.json()];
                     case 2:
-                        data = _a.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { category: {}, error: data.error.message }];
-                        }
-                        return [4 /*yield*/, data.result];
+                        data = _b.sent();
+                        return [4 /*yield*/, data];
                     case 3:
-                        category = (_a.sent()).category;
+                        _a = _b.sent(), result = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { category: {}, error: error }];
+                        }
+                        return [4 /*yield*/, result];
+                    case 4:
+                        category = (_b.sent()).category;
                         // console.log(category);
-                        return [2 /*return*/, { category: category, error: "" }];
+                        return [2 /*return*/, { category: category, error: {} }];
                 }
             });
         });
@@ -209,26 +258,26 @@ var PrintfulAcountClient = /** @class */ (function () {
     PrintfulAcountClient.prototype.getSyncProducts = function (offset, limit, category_id) {
         if (offset === void 0) { offset = 0; }
         if (limit === void 0) { limit = 20; }
+        if (category_id === void 0) { category_id = ""; }
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data, _a, products, paging;
+            var url, response, data, _a, products, paging, code, error;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         url = this.origin + "/store/products?" + "offset=" + offset + "&limit=" + limit + (category_id ? "&category_id=" + category_id : "");
-                        return [4 /*yield*/, axios.get(url, { headers: this.headers })];
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url, { headers: this.headers })];
                     case 1:
                         response = _b.sent();
-                        return [4 /*yield*/, response.data];
+                        return [4 /*yield*/, response.json()];
                     case 2:
                         data = _b.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { products: [], paging: {}, error: data.error.message }];
-                        }
                         return [4 /*yield*/, data];
                     case 3:
-                        _a = _b.sent(), products = _a.result, paging = _a.paging;
-                        // console.log(products);
-                        return [2 /*return*/, { products: products, paging: paging, error: "" }];
+                        _a = _b.sent(), products = _a.result, paging = _a.paging, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { products: [], paging: {}, error: error }];
+                        }
+                        return [2 /*return*/, { products: products, paging: paging, error: {} }];
                 }
             });
         });
@@ -244,25 +293,28 @@ var PrintfulAcountClient = /** @class */ (function () {
      */
     PrintfulAcountClient.prototype.createSyncProduct = function (sync_product, sync_variants) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data, product;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var url, response, data, _a, product, code, error;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         url = this.origin + "/store/products";
-                        return [4 /*yield*/, axios.post(url, { sync_product: sync_product, sync_variants: sync_variants }, { headers: this.headers })];
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url, {
+                                method: "POST",
+                                headers: this.headers,
+                                body: JSON.stringify({ sync_product: sync_product, sync_variants: sync_variants })
+                            })];
                     case 1:
-                        response = _a.sent();
-                        return [4 /*yield*/, response.data];
+                        response = _b.sent();
+                        return [4 /*yield*/, response.json()];
                     case 2:
-                        data = _a.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { product: {}, error: data.error.message }];
-                        }
+                        data = _b.sent();
                         return [4 /*yield*/, data];
                     case 3:
-                        product = (_a.sent()).result;
-                        // console.log(product);
-                        return [2 /*return*/, { product: product, error: "" }];
+                        _a = _b.sent(), product = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { product: {}, error: error }];
+                        }
+                        return [2 /*return*/, { product: product, error: {} }];
                 }
             });
         });
@@ -275,25 +327,28 @@ var PrintfulAcountClient = /** @class */ (function () {
      */
     PrintfulAcountClient.prototype.getSyncProduct = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data, _a, sync_product, sync_variants;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var url, response, data, _a, result, code, error, _b, sync_product, sync_variants;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         url = this.origin + "/store/products/" + id;
-                        return [4 /*yield*/, axios.get(url, { headers: this.headers })];
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url, { headers: this.headers })];
                     case 1:
-                        response = _b.sent();
-                        return [4 /*yield*/, response.data];
+                        response = _c.sent();
+                        return [4 /*yield*/, response.json()];
                     case 2:
-                        data = _b.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { sync_product: {}, sync_variants: [], error: data.error.message }];
-                        }
-                        return [4 /*yield*/, data.result];
+                        data = _c.sent();
+                        return [4 /*yield*/, data];
                     case 3:
-                        _a = _b.sent(), sync_product = _a.sync_product, sync_variants = _a.sync_variants;
+                        _a = _c.sent(), result = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { sync_product: {}, sync_variants: [], error: error }];
+                        }
+                        return [4 /*yield*/, result];
+                    case 4:
+                        _b = _c.sent(), sync_product = _b.sync_product, sync_variants = _b.sync_variants;
                         // console.log(sync_product, sync_variants);
-                        return [2 /*return*/, { sync_product: sync_product, sync_variants: sync_variants, error: "" }];
+                        return [2 /*return*/, { sync_product: sync_product, sync_variants: sync_variants, error: {} }];
                 }
             });
         });
@@ -306,50 +361,60 @@ var PrintfulAcountClient = /** @class */ (function () {
      */
     PrintfulAcountClient.prototype.deleteSyncProduct = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data, _a, sync_product, sync_variants;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var url, response, data, _a, result, code, error, _b, sync_product, sync_variants;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         url = this.origin + "/store/products/" + id;
-                        return [4 /*yield*/, axios.delete(url, { headers: this.headers })];
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url, {
+                                method: "DELETE",
+                                headers: this.headers
+                            })];
                     case 1:
-                        response = _b.sent();
-                        return [4 /*yield*/, response.data];
+                        response = _c.sent();
+                        return [4 /*yield*/, response.json()];
                     case 2:
-                        data = _b.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { sync_product: {}, sync_variants: [], error: data.error.message }];
-                        }
-                        return [4 /*yield*/, data.result];
+                        data = _c.sent();
+                        console.log(data);
+                        return [4 /*yield*/, data];
                     case 3:
-                        _a = _b.sent(), sync_product = _a.sync_product, sync_variants = _a.sync_variants;
+                        _a = _c.sent(), result = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { sync_product: {}, sync_variants: [], error: error }];
+                        }
+                        return [4 /*yield*/, result];
+                    case 4:
+                        _b = _c.sent(), sync_product = _b.sync_product, sync_variants = _b.sync_variants;
                         // console.log(sync_product, sync_variants);
-                        return [2 /*return*/, { sync_product: sync_product, sync_variants: sync_variants, error: "" }];
+                        return [2 /*return*/, { sync_product: sync_product, sync_variants: sync_variants, error: {} }];
                 }
             });
         });
     };
     PrintfulAcountClient.prototype.modifySyncProduct = function (id, sync_product, sync_variants) {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, data, product;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var url, response, data, _a, product, code, error;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         url = this.origin + "/store/products/" + id;
-                        return [4 /*yield*/, axios.post(url, { sync_product: sync_product, sync_variants: sync_variants }, { headers: this.headers })];
+                        return [4 /*yield*/, (0, cross_fetch_1.default)(url, {
+                                method: "PUT",
+                                headers: this.headers,
+                                body: JSON.stringify({ sync_product: sync_product, sync_variants: sync_variants })
+                            })];
                     case 1:
-                        response = _a.sent();
-                        return [4 /*yield*/, response.data];
+                        response = _b.sent();
+                        return [4 /*yield*/, response.json()];
                     case 2:
-                        data = _a.sent();
-                        if (data.code >= 400) {
-                            return [2 /*return*/, { product: {}, error: data.error.message }];
-                        }
+                        data = _b.sent();
                         return [4 /*yield*/, data];
                     case 3:
-                        product = (_a.sent()).result;
-                        // console.log(product);
-                        return [2 /*return*/, { product: product, error: "" }];
+                        _a = _b.sent(), product = _a.result, code = _a.code, error = _a.error;
+                        if (code >= 400) {
+                            return [2 /*return*/, { product: {}, error: error }];
+                        }
+                        return [2 /*return*/, { product: product, error: {} }];
                 }
             });
         });
