@@ -1,6 +1,5 @@
 # TODO List
 ---
-> REFACTOR: Factor out different API types and turn main class into composition
 > DEVELOP: Keep Adding methods
 
 ## Improvements

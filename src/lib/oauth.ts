@@ -1,4 +1,5 @@
 import GenericAPI from "./generic";
+import fetch from 'cross-fetch';
 import type { Headers } from "../types/headers";
 
 //------------------------------------------------------------------------------------------------------//

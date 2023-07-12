@@ -41,13 +41,13 @@ const Client = createPrintfulAcountClient(process.env.API_AUTH)
 // Client.deleteSyncProduct(313776218);
 
 async function main(){
-    // const res = await Client.getProducts();
+    // const res = await Client.catalog.getAllProducts();
     // const res = await Client.getProduct(71);
     // const res = await Client.getVariant(4018);
     // const res = await Client.getSize(71);
     // const res = await Client.getCategory(24);
     // const res = await Client.getCategories();
-    // const res = await Client.getSyncProducts();
+    // const res = await Client.products.getAllSyncProducts();
 
     // const sync_product = {name: "API product custom", thumbnail: "https://picsum.photos/200/300"};
     // const files = [

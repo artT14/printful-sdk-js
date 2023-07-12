@@ -1,10 +1,11 @@
 import GenericAPI from "./generic";
+import fetch from 'cross-fetch';
 import type { Headers } from "../types/headers";
 
 //------------------------------------------------------------------------------------------------------//
 // II. CATALOG API
 //------------------------------------------------------------------------------------------------------//
-export default class Catalog extends GenericAPI{
+export default class CatalogAPI extends GenericAPI{
     constructor(headers: Headers, origin: string){super(headers, origin)}
 
     /** 
