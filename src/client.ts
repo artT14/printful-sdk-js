@@ -6,7 +6,7 @@ import OrdersAPI from './lib/orders';
 import FileLibraryAPI from './lib/file-library';
 import ShippingRateAPI from './lib/shipping-rate';
 import EcommerceSyncAPI from './lib/ecommerce-sync';
-import CountryStateCodeAPI from './lib/country-state-code';
+import CountryCodesAPI from './lib/country-codes';
 import TaxRateAPI from './lib/tax-rate';
 import WebhookAPI from './lib/webhook';
 import StoreInformationAPI from './lib/store-information';
@@ -29,7 +29,7 @@ export class PrintfulAcountClient{
     public fileLibrary: FileLibraryAPI;
     public shippingRate: ShippingRateAPI;
     public ecommerceSync: EcommerceSyncAPI;
-    public countryStateCode: CountryStateCodeAPI;
+    public countryStateCode: CountryCodesAPI;
     public taxRate: TaxRateAPI;
     public webhook: WebhookAPI;
     public storeInformation: StoreInformationAPI;
@@ -49,7 +49,7 @@ export class PrintfulAcountClient{
         this.fileLibrary = new FileLibraryAPI(this.headers, this.origin);
         this.shippingRate = new ShippingRateAPI(this.headers, this.origin);
         this.ecommerceSync = new EcommerceSyncAPI(this.headers, this.origin);
-        this.countryStateCode = new CountryStateCodeAPI(this.headers, this.origin);
+        this.countryStateCode = new CountryCodesAPI(this.origin);
         this.taxRate = new TaxRateAPI(this.headers, this.origin);
         this.webhook = new WebhookAPI(this.headers, this.origin);
         this.storeInformation = new StoreInformationAPI(this.headers, this.origin);
