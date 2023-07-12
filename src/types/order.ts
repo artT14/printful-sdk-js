@@ -1,7 +1,7 @@
 import type { File } from "./file"
 import type { ProductVariant } from "./product"
 
-export type NewOrder = {
+export type Order = {
     external_id?: string,                   // Order ID from the external system
     shipping?: string,                      // Shipping method. Defaults to 'STANDARD'
     recipient: OrderRecipient,              // Information about the address
