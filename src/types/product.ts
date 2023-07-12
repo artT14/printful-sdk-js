@@ -18,3 +18,5 @@ export type ProductVariant = {
     image?: string,
     name?: string
 }
+
+export type Status = "synced" | "unsynced" | "all"

@@ -48,7 +48,6 @@ export default class ProductsAPI extends GenericAPI{
             return {sync_product: {}, sync_variants: [], error};
         }
         const {sync_product, sync_variants} = await result;
-        // console.log(sync_product, sync_variants);
         return {sync_product, sync_variants, error: {}};
     }
 
