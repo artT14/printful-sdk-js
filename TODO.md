@@ -14,3 +14,4 @@
 
 ## Potential Problems:
 ---
+Ecommerce Sync API Responses don't match with Products API Responses, may be problematic
