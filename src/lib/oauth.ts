@@ -14,9 +14,9 @@ export default class OAuthAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {scopes: [], error};
+            return {scopes: null, error};
         }
         const {scopes} = await result;
-        return {scopes, error: {}};
+        return {scopes, error: null};
     }
 }

@@ -28,9 +28,9 @@ export default class FileLibraryAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: file, error} = await data;
         if (code >= 400){
-            return {file: {}, error};
+            return {file: null, error};
         }
-        return {file, error: {}};
+        return {file, error: null};
     }
 
     /**
@@ -48,9 +48,9 @@ export default class FileLibraryAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: file, error} = await data;
         if (code >= 400){
-            return {file: {}, error};
+            return {file: null, error};
         }
-        return {file, error: {}};
+        return {file, error: null};
     }
 
     /**
@@ -72,9 +72,9 @@ export default class FileLibraryAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: thread_colors, error} = await data;
         if (code >= 400){
-            return {thread_colors: [], error};
+            return {thread_colors: null, error};
         }
-        return {thread_colors, error: {}};
+        return {thread_colors, error: null};
     }
 }
 

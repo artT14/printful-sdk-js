@@ -19,9 +19,9 @@ export default class CatalogAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {products: [], error};
+            return {products: null, error};
         }
-        return {products: result, error: {}};
+        return {products: result, error: null};
     }
 
     /** 
@@ -37,10 +37,10 @@ export default class CatalogAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {product: {}, variants:[], error};
+            return {product: null, variants:[], error};
         }
         const {product, variants} = await result;
-        return {product, variants, error: {}};
+        return {product, variants, error: null};
     }
 
     /** 
@@ -55,10 +55,10 @@ export default class CatalogAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {product: {}, variant:{}, error};
+            return {product: null, variant: null, error};
         }
         const {product, variant} = await result;
-        return {product, variant, error: {}};
+        return {product, variant, error: null};
     }
 
     /** 
@@ -74,10 +74,10 @@ export default class CatalogAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {product_id: -1, available_sizes:[], size_tables:[], error};
+            return {product_id: null, available_sizes: null, size_tables: null, error};
         }
         const {product_id, available_sizes, size_tables} = await result;
-        return {product_id, available_sizes, size_tables, error: {}};
+        return {product_id, available_sizes, size_tables, error: null};
     }
 
     /**
@@ -91,11 +91,10 @@ export default class CatalogAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {categories: [], error};
+            return {categories: null, error};
         }
         const {categories} = await result;
-        // console.log(category);
-        return {categories, error: {}};
+        return {categories, error: null};
     }
 
     /** 
@@ -110,10 +109,9 @@ export default class CatalogAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {category: {}, error};
+            return {category: null, error};
         }
         const {category} = await result;
-        // console.log(category);
-        return {category, error: {}};
+        return {category, error: null};
     }
 }

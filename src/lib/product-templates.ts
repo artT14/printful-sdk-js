@@ -23,10 +23,10 @@ export default class ProductTemplatesAPI extends GenericAPI{
         const data = await response.json();
         const {code, result, paging, error} = await data;
         if (code >= 400){
-            return {templates: [], paging: {offset, limit}, error};
+            return {templates: null, paging: {offset, limit}, error};
         }
         const {items: templates} = await result;
-        return {templates,paging,error:{}};
+        return {templates, paging, error: null};
         
     }
 
@@ -43,9 +43,9 @@ export default class ProductTemplatesAPI extends GenericAPI{
         const data = await response.json();
         const {code, result, error} = await data;
         if (code >= 400){
-            return {template: {}, error};
+            return {template: null, error};
         }
-        return {template: result, error: {}};
+        return {template: result, error: null};
     }
 
     /**
@@ -67,6 +67,6 @@ export default class ProductTemplatesAPI extends GenericAPI{
             return {success: false, error};
         }
         const {success} = await result;
-        return {success, error: {}};
+        return {success, error: null};
     }
 }

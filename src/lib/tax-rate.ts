@@ -21,9 +21,9 @@ export default class TaxRateAPI{
         const data = await response.json();
         const {result: taxList, code, error} = await data;
         if (code >= 400){
-            return {taxList: [], error};
+            return {taxList: null, error};
         }
-        return {taxList, error: {}}
+        return {taxList, error: null}
     }
 
     /**
@@ -42,8 +42,8 @@ export default class TaxRateAPI{
         const data = await response.json();
         const {result: taxRate, code, error} = await data;
         if (code >= 400){
-            return {taxRate: {}, error};
+            return {taxRate: null, error};
         }
-        return {taxRate, error: {}}
+        return {taxRate, error: null}
     }
 }

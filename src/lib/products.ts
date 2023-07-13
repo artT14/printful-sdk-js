@@ -28,9 +28,9 @@ export default class ProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result: products, paging, code, error} = await data;
         if (code >= 400){
-            return {products: [], paging: {offset,limit}, error};
+            return {products: null, paging: {offset,limit}, error};
         }
-        return {products, paging, error: {}}
+        return {products, paging, error: null}
     }
 
     /**
@@ -45,10 +45,10 @@ export default class ProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {sync_product: {}, sync_variants: [], error};
+            return {sync_product: null, sync_variants: null, error};
         }
         const {sync_product, sync_variants} = await result;
-        return {sync_product, sync_variants, error: {}};
+        return {sync_product, sync_variants, error: null};
     }
 
     /**
@@ -70,9 +70,9 @@ export default class ProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result: product, code, error} = await data;
         if (code >= 400){
-            return {product: {}, error};
+            return {product: null, error};
         }
-        return {product, error: {}};
+        return {product, error: null};
     }
 
     /**
@@ -90,9 +90,9 @@ export default class ProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {result: [], error};
+            return {result: null, error};
         }
-        return {result, error: {}};
+        return {result, error: null};
     }
 
     /**
@@ -117,9 +117,9 @@ export default class ProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result: product, code, error} = await data;
         if (code >= 400){
-            return {product: {}, error};
+            return {product: null, error};
         }
-        return {product, error: {}};
+        return {product, error: null};
     }
 
     /**
@@ -135,9 +135,9 @@ export default class ProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result: variant, code, error} = await data;
         if (code >= 400){
-            return {variant: {}, error};
+            return {variant: null, error};
         }
-        return {variant, error: {}};
+        return {variant, error: null};
     }
     
     /**
@@ -156,9 +156,9 @@ export default class ProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {result: [], error};
+            return {result: null, error};
         }
-        return {result, error: {}};
+        return {result, error: null};
     }
 
     /**
@@ -181,9 +181,9 @@ export default class ProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result: variant, code, error} = await data;
         if (code >= 400){
-            return {variant: {}, error};
+            return {variant: null, error};
         }
-        return {variant, error: {}};
+        return {variant, error: null};
     }
 
     /**
@@ -205,8 +205,8 @@ export default class ProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result: variant, code, error} = await data;
         if (code >= 400){
-            return {variant: {}, error};
+            return {variant: null, error};
         }
-        return {variant, error: {}};
+        return {variant, error: null};
     }
 }

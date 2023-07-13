@@ -28,9 +28,9 @@ export default class ReportsAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {store_statistics: [], error};
+            return {store_statistics: null, error};
         }
         const {store_statistics} = await result;
-        return {store_statistics, error: {}}
+        return {store_statistics, error: null}
     }
 }

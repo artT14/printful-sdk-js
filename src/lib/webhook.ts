@@ -20,9 +20,9 @@ export default class WebhookAPI extends GenericAPI{
         const data = await response.json();
         const {result: config, code, error} = await data;
         if (code >= 400){
-            return {config: {}, error};
+            return {config: null, error};
         }
-        return {config, error: {}}
+        return {config, error: null}
     }
 
     /**
@@ -46,9 +46,9 @@ export default class WebhookAPI extends GenericAPI{
         const data = await response.json();
         const {result: config, code, error} = await data;
         if (code >= 400){
-            return {config: {}, error};
+            return {config: null, error};
         }
-        return {config, error: {}}
+        return {config, error: null}
     }
 
     /**
@@ -65,8 +65,8 @@ export default class WebhookAPI extends GenericAPI{
         const data = await response.json();
         const {result: config, code, error} = await data;
         if (code >= 400){
-            return {config: {}, error};
+            return {config: null, error};
         }
-        return {config, error: {}}
+        return {config, error: null}
     }
 }

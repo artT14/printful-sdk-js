@@ -20,8 +20,8 @@ export default class CountryCodesAPI{
         const data = await response.json();
         const {result: countryCodes, code, error} = await data;
         if (code >= 400){
-            return {countryCodes: [], error};
+            return {countryCodes: null, error};
         }
-        return {countryCodes, error: {}}
+        return {countryCodes, error: null}
     }
 }

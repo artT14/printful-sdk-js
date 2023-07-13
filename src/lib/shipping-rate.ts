@@ -24,8 +24,8 @@ export default class ShippingRateAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: shipping_options, error} = await data;
         if (code >= 400){
-            return {shipping_options: [], error};
+            return {shipping_options: null, error};
         }
-        return {shipping_options, error: {}};
+        return {shipping_options, error: null};
     }
 }

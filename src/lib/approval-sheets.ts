@@ -22,9 +22,9 @@ export default class ApprovalSheetsAPI extends GenericAPI{
         const data = await response.json();
         const {result: sheets, code, error} = await data;
         if (code >= 400){
-            return {sheets: [], error};
+            return {sheets: null, error};
         }
-        return {sheets, error: {}}
+        return {sheets, error: null}
     }
 
     /**
@@ -48,10 +48,10 @@ export default class ApprovalSheetsAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {message: "", error};
+            return {message: null, error};
         }
         const {message} = await result;
-        return {message, error: {}}
+        return {message, error: null}
     }
 
     async changeApprovalSheet(confirm_hash: string, changes: ApprovalSheetChanges){
@@ -65,8 +65,8 @@ export default class ApprovalSheetsAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {result: {}, error};
+            return {result: null, error};
         }
-        return {result, error: {}}
+        return {result, error: null}
     }
 }

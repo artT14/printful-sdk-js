@@ -29,9 +29,9 @@ export default class WarehouseProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result: products, paging, code, error} = await data;
         if (code >= 400){
-            return {products: [], paging: {offset, limit}, error};
+            return {products: null, paging: {offset, limit}, error};
         }
-        return {products, paging, error: {}};
+        return {products, paging, error: null};
     }
 
     /**
@@ -49,8 +49,8 @@ export default class WarehouseProductsAPI extends GenericAPI{
         const data = await response.json();
         const {result: product, code, error} = await data;
         if (code >= 400){
-            return {product: {}, error};
+            return {product: null, error};
         }
-        return {product, error: {}};
+        return {product, error: null};
     }
 }

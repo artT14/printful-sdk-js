@@ -24,10 +24,10 @@ export default class StoreInformationAPI extends GenericAPI{
         const data = await response.json();
         const {result, code, error} = await data;
         if (code >= 400){
-            return {packing_slip: {}, error};
+            return {packing_slip: null, error};
         }
         const {packing_slip} = await result;
-        return {packing_slip, error: {}}
+        return {packing_slip, error: null}
     }
 
     /**
@@ -46,9 +46,9 @@ export default class StoreInformationAPI extends GenericAPI{
         const data = await response.json();
         const {result: stores, paging, code, error} = await data;
         if (code >= 400){
-            return {stores: [], paging: {offset, limit}, error};
+            return {stores: null, paging: {offset, limit}, error};
         }
-        return {stores, paging, error: {}}
+        return {stores, paging, error: null}
     }
 
     /**
@@ -66,8 +66,8 @@ export default class StoreInformationAPI extends GenericAPI{
         const data = await response.json();
         const {result: store, code, error} = await data;
         if (code >= 400){
-            return {store: {}, error};
+            return {store: null, error};
         }
-        return {store, error: {}}
+        return {store, error: null}
     }
 }

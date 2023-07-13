@@ -28,9 +28,9 @@ export default class MockupGeneratorAPI extends GenericAPI{
         const data = await response.json();
         const {result: task, code, error} = await data;
         if (code >= 400){
-            return {task: {}, error};
+            return {task: null, error};
         }
-        return {task, error: {}}
+        return {task, error: null}
     }
 
     /**
@@ -53,9 +53,9 @@ export default class MockupGeneratorAPI extends GenericAPI{
         const data = await response.json();
         const {result: files, code, error} = await data;
         if (code >= 400){
-            return {files: {}, error};
+            return {files: null, error};
         }
-        return {files, error: {}}
+        return {files, error: null}
     }
 
     async getMockupTaskResult(task_key: string){
@@ -67,9 +67,9 @@ export default class MockupGeneratorAPI extends GenericAPI{
         const data = await response.json();
         const {result: task, code, error} = await data;
         if (code >= 400){
-            return {task: {}, error};
+            return {task: null, error};
         }
-        return {task, error: {}}
+        return {task, error: null}
     }
 
     /**
@@ -92,8 +92,8 @@ export default class MockupGeneratorAPI extends GenericAPI{
         const data = await response.json();
         const {result: files, code, error} = await data;
         if (code >= 400){
-            return {files: {}, error};
+            return {files: null, error};
         }
-        return {files, error: {}}
+        return {files, error: null}
     }
 }

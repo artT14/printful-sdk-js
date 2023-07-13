@@ -27,9 +27,9 @@ export default class OrdersAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: orders, paging, error} = await data;
         if (code >= 400){
-            return {orders: [], paging: {offset, limit}, error};
+            return {orders: null, paging: {offset, limit}, error};
         }
-        return {orders, paging, error: {}};
+        return {orders, paging, error: null};
     }
 
     /**
@@ -52,9 +52,9 @@ export default class OrdersAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: order, error} = await data;
         if (code >= 400){
-            return {order: {}, error};
+            return {order: null, error};
         }
-        return {order, error};
+        return {order, error: null};
     }
 
     /**
@@ -72,9 +72,9 @@ export default class OrdersAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: order, error} = await data;
         if (code >= 400){
-            return {order: {}, error};
+            return {order: null, error};
         }
-        return {order, error};
+        return {order, error: null};
     }
 
     /**
@@ -93,9 +93,9 @@ export default class OrdersAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: order, error} = await data;
         if (code >= 400){
-            return {order: {}, error};
+            return {order: null, error};
         }
-        return {order, error};
+        return {order, error: null};
     }
 
     /**
@@ -127,9 +127,9 @@ export default class OrdersAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: order, error} = await data;
         if (code >= 400){
-            return {order: {}, error};
+            return {order: null, error};
         }
-        return {order, error};
+        return {order, error: null};
     }
 
     /**
@@ -148,9 +148,9 @@ export default class OrdersAPI extends GenericAPI{
         const data = await response.json();
         const {code, result: order, error} = await data;
         if (code >= 400){
-            return {order: {}, error};
+            return {order: null, error};
         }
-        return {order, error};
+        return {order, error: null};
     }
 
     /**
@@ -170,9 +170,9 @@ export default class OrdersAPI extends GenericAPI{
         const data = await response.json();
         const {code, result, error} = await data;
         if (code >= 400){
-            return {costs: {}, retail_costs: {}, error};
+            return {costs: null, retail_costs: null, error};
         }
         const {costs, retail_costs} = result;
-        return {costs, retail_costs, error};
+        return {costs, retail_costs, error: null};
     }
 }
