@@ -7,6 +7,7 @@
 > Change emptyu return values to nulls instead
 > DOCUMENT: Add JSDOC comments
 > TEST: Set up Jest Testing Lab
+> use URLSearchParams instead to build queries
 
 ## Bugs:
 ---
