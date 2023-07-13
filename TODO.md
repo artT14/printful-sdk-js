@@ -1,6 +1,5 @@
 # TODO List
 ---
-> LICENSE: Add License
 > TEST: Set up Jest Testing Lab, and test all endpoints
 > DOCUMENT: Add JSDOC comments
 > Set Up Different types of Clients, Store/Account
