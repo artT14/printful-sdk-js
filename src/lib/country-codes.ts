@@ -9,6 +9,11 @@ export default class CountryCodesAPI{
         this.origin = origin;
     }
 
+    /**
+     * Retrieve state list that requires sales tax calculation
+     * 
+     * @returns {promise} {countryCodes, error}
+     */
     async getCountryList(){
         const url = this.origin + "/countries";
         const response = await fetch(url);

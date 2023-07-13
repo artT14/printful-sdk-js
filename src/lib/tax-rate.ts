@@ -1,14 +1,49 @@
-import GenericAPI from "./generic";
 import fetch from 'cross-fetch';
-import type { Headers } from "../types/headers";
+import type { Recipient } from '../types/recipient';
 
 //------------------------------------------------------------------------------------------------------//
 // X. TAX RATE API
 //------------------------------------------------------------------------------------------------------//
-export default class TaxRateAPI extends GenericAPI{
-    constructor(headers: Headers, origin: string){super(headers, origin)}
+export default class TaxRateAPI{
+    protected origin: string;
+    constructor(origin: string){
+        this.origin = origin;
+    }
 
-    async getCountryTexList(){}
+    /**
+     * Retrieve state list that requires sales tax calculation
+     * 
+     * @returns {promise} {taxList, error}
+     */
+    async getCountryTexList(){
+        const url = this.origin + "/tax/countries";
+        const response = await fetch(url);
+        const data = await response.json();
+        const {result: taxList, code, error} = await data;
+        if (code >= 400){
+            return {taxList: [], error};
+        }
+        return {taxList, error: {}}
+    }
 
-    async calcTax(){}
+    /**
+     * Calculates sales tax rate for given address if required
+     * 
+     * @param {Recipient} recipient - Recipient address information
+     * 
+     * @returns {promise} {taxRate, error}
+     */
+    async calcTax(recipient: Recipient){
+        const url = this.origin + "/tax/rates";
+        const response = await fetch(url,{
+            method: "POST",
+            body: JSON.stringify({recipient})
+        });
+        const data = await response.json();
+        const {result: taxRate, code, error} = await data;
+        if (code >= 400){
+            return {taxRate: {}, error};
+        }
+        return {taxRate, error: {}}
+    }
 }

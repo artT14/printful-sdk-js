@@ -50,7 +50,7 @@ export class PrintfulAcountClient{
         this.shippingRate = new ShippingRateAPI(this.headers, this.origin);
         this.ecommerceSync = new EcommerceSyncAPI(this.headers, this.origin);
         this.countryStateCode = new CountryCodesAPI(this.origin);
-        this.taxRate = new TaxRateAPI(this.headers, this.origin);
+        this.taxRate = new TaxRateAPI(this.origin);
         this.webhook = new WebhookAPI(this.headers, this.origin);
         this.storeInformation = new StoreInformationAPI(this.headers, this.origin);
         this.mockupGenerator = new MockupGeneratorAPI(this.headers, this.origin);
