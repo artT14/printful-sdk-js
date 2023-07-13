@@ -1,13 +1,14 @@
 # TODO List
 ---
-> DEVELOP: Keep Adding methods
+> Change empty return values to nulls instead
+> Change query builders, use URLSearchParams instead to build queries
+> TEST: Set up Jest Testing Lab, and test all endpoints
+> DOCUMENT: Add JSDOC comments
+
+
 
 ## Improvements
 ---
-> Change emptyu return values to nulls instead
-> DOCUMENT: Add JSDOC comments
-> TEST: Set up Jest Testing Lab
-> use URLSearchParams instead to build queries
 
 ## Bugs:
 ---
