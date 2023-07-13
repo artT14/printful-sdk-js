@@ -18,7 +18,7 @@ export default class ReportsAPI extends GenericAPI{
      * 
      * @returns {promise} {store_statistics, error}
      */
-    async getStats(date_from: RawDateString , date_to: RawDateString, currency: string = "", report_types: string){
+    async getStats(date_from: RawDateString , date_to: RawDateString, report_types: string, currency: string){
         const params = new URLSearchParams({date_from, date_to, report_types});
         currency && params.append("currency", currency);
         const url = this.origin + "/reports/statistics?"+params.toString();

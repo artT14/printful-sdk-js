@@ -17,7 +17,7 @@ export default class WarehouseProductsAPI extends GenericAPI{
      * 
      * @returns {promise} {products, paging, error}
      */
-    async getWarehouseProducts(query: string = "", offset: number = 0, limit: number = 20){
+    async getWarehouseProducts(query: string, offset: number, limit: number){
         const params = new URLSearchParams({});
         query && params.append("query", query);
         offset && params.append("offset", String(offset));

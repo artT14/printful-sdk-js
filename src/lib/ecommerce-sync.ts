@@ -21,8 +21,13 @@ export default class EcommerceSyncAPI extends GenericAPI{
      * 
      * @returns {promise} {products, paging, error} 
      */
-    async getAllEcommProducts(offset: number = 0, limit: number = 20, status: Status = "all", search: string = ""){
-        const url = this.origin + "/sync/products?" + "offset=" + offset + "&limit=" + limit + "&status=" + status + (search ? "&search=" + search : "");
+    async getAllEcommProducts(offset: number, limit: number, status: Status, search: string){
+        const params = new URLSearchParams({});
+        offset && params.append("offset", String(offset));
+        limit && params.append("limit", String(limit));
+        status && params.append("status", status);
+        search && params.append("search", search);
+        const url = this.origin + "/sync/products?" + params.toString();
         const response = await fetch(url, {headers:this.headers});
         const data = await response.json();
         const {result: products, paging, code, error} = await data;

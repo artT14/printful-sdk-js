@@ -38,8 +38,11 @@ export default class StoreInformationAPI extends GenericAPI{
      * 
      * @returns {promise} {stores, paging, error}
      */
-    async getStoresInfo(offset: number = 0,limit: number = 20){
-        const url = this.origin+"/stores"+"?offset="+offset+"&limit="+limit;
+    async getStoresInfo(offset: number,limit: number){
+        const params = new URLSearchParams({});
+        offset && params.append("offset", String(offset));
+        limit && params.append("limit", String(limit));
+        const url = this.origin+"/stores?" + params.toString();
         const response = await fetch(url, {
             headers: this.headers,
         });

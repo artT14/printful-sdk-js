@@ -22,8 +22,12 @@ export default class ProductsAPI extends GenericAPI{
      * 
      * @returns {promise} {products, paging, error}
      */
-    async getAllSyncProducts(offset=0, limit=20, category_id=""){
-        const url = this.origin+"/store/products?"+"offset="+offset+"&limit="+limit+(category_id ? "&category_id="+category_id : "");
+    async getAllSyncProducts(offset: number, limit: number, category_id: string){
+        const params = new URLSearchParams({});
+        offset && params.append("offset", String(offset));
+        limit && params.append("limit", String(limit));
+        category_id && params.append("category_id", category_id);
+        const url = this.origin+"/store/products?" + params.toString();
         const response = await fetch(url, {headers:this.headers});
         const data = await response.json();
         const {result: products, paging, code, error} = await data;

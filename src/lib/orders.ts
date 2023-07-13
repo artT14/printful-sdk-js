@@ -19,8 +19,12 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @returns {promise} {orders, paging, error}
      */
-    async getOrders(offset=0, limit=20, status: OrderStatus){
-        const url = this.origin+"/orders"+"?offset="+offset+"&limit="+limit+"&status="+status;
+    async getOrders(offset: number, limit: number, status: OrderStatus){
+        const params = new URLSearchParams({})
+        offset && params.append("offset", String(offset));
+        limit && params.append("limit", String(limit));
+        status && params.append("status", status);
+        const url = this.origin+"/orders?" + params.toString();
         const response = await fetch(url, {
             headers: this.headers,
         });
@@ -42,8 +46,11 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @returns {promise} {order, error}
      */
-    async createOrder(newOrder: Order, confirm=false, update_existing=false){
-        const url = this.origin+"/orders"+"?confirm="+confirm+"&update_existing="+update_existing;
+    async createOrder(newOrder: Order, confirm: boolean, update_existing: boolean){
+        const params = new URLSearchParams({});
+        confirm !== undefined && params.append("confirm", String(confirm));
+        update_existing !== undefined && params.append("update_existing", String(update_existing));
+        const url = this.origin+"/orders?"+params.toString();
         const response = await fetch(url, {
             method: "POST",
             headers: this.headers,
@@ -117,8 +124,10 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @returns {promise} {order, error}
      */
-    async updateOrder(id: number|string, orderData: Order, confirm=false){
-        const url = this.origin+"/orders/"+id+"?confirm="+confirm;
+    async updateOrder(id: number|string, orderData: Order, confirm: boolean){
+        const params = new URLSearchParams({});
+        confirm !== undefined && params.append("confirm", String(confirm));
+        const url = this.origin+"/orders/"+id+"?" + params.toString();
         const response = await fetch(url, {
             method: "PUT",
             headers: this.headers,

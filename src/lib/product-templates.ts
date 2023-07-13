@@ -17,8 +17,11 @@ export default class ProductTemplatesAPI extends GenericAPI{
      * 
      * @returns {promise} {templates,paging,error}
      */
-    async getAllTemplates(offset=0,limit=20){
-        const url = this.origin+"/product-templates"+"?offset="+offset+"&limit="+limit;
+    async getAllTemplates(offset: number, limit: number){
+        const params = new URLSearchParams({});
+        offset && params.append("offset", String(offset));
+        limit && params.append("limit", String(limit));
+        const url = this.origin+"/product-templates?"+params.toString();
         const response = await fetch(url, {headers: this.headers});
         const data = await response.json();
         const {code, result, paging, error} = await data;

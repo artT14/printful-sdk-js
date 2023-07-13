@@ -69,7 +69,8 @@ export default class CatalogAPI extends GenericAPI{
      * @returns {promise} {product_id, available_sizes, size_tables, error}
      * */
     async getSize(id: number,metric=false){
-        const url = this.origin+"/products/"+id+"/sizes?unit="+(metric?"cm":"inches");
+        const params = new URLSearchParams({unit: metric?"cm":"inches"});
+        const url = this.origin+"/products/"+id+"/sizes?"+ params.toString();
         const response = await fetch(url);
         const data = await response.json();
         const {result, code, error} = await data;
