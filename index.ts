@@ -1,10 +1,10 @@
-import {createPrintfulAcountClient} from'./src/client' 
+import {createPrintfulStoreClient} from'./src/client' 
 import { File } from './src/types/file';
 import { SyncVariant } from './src/types/variant';
 
 require('dotenv').config()
 
-const Client = createPrintfulAcountClient(process.env.API_AUTH)
+const Client = createPrintfulStoreClient(process.env.API_AUTH)
 
 // Client.getProducts()
 

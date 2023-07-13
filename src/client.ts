@@ -16,7 +16,7 @@ import ReportsAPI from './lib/reports';
 import ApprovalSheetsAPI from './lib/approval-sheets';
 import type { Headers } from './types/headers';
 
-export class PrintfulAcountClient{
+export class PrintfulStoreClient{
     protected origin = "https://api.printful.com";
     protected headers: Headers;
 
@@ -60,6 +60,6 @@ export class PrintfulAcountClient{
     }
 }
 
-export function createPrintfulAcountClient(auth: string | undefined){
-    return new PrintfulAcountClient(auth);
+export function createPrintfulStoreClient(auth: string | undefined){
+    return new PrintfulStoreClient(auth);
 }
