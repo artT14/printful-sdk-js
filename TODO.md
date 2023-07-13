@@ -4,6 +4,7 @@
 > Change query builders, use URLSearchParams instead to build queries
 > TEST: Set up Jest Testing Lab, and test all endpoints
 > DOCUMENT: Add JSDOC comments
+> Set Up Different types of Clients, Store/Account
 
 
 
