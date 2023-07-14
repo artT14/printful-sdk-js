@@ -22,7 +22,7 @@ export default class ProductsAPI extends GenericAPI{
      * 
      * @returns {promise} {products, paging, error}
      */
-    async getAllSyncProducts(offset: number, limit: number, category_id: string){
+    async getAllSyncProducts(offset?: number, limit?: number, category_id?: string){
         const params = new URLSearchParams({});
         offset && params.append("offset", String(offset));
         limit && params.append("limit", String(limit));
@@ -111,7 +111,7 @@ export default class ProductsAPI extends GenericAPI{
      * 
      * @returns {promise} {product, error}
      */
-    async modifySyncProduct(id: number | string, sync_product: OptionalSyncProduct, sync_variants: Array<OptionalSyncVariant>){
+    async modifySyncProduct(id: number | string, sync_product?: OptionalSyncProduct, sync_variants?: Array<OptionalSyncVariant>){
         const url = this.origin+"/store/products/"+id;
         const response = await fetch(url, {
             method: "PUT",

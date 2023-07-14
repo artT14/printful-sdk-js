@@ -17,6 +17,7 @@ describe("CatalogAPI", ()=>{
 		expect(products).toBeDefined();
 	});
 
+	// TODO: need negative tests
 	it("should return information about a specific product and a list of variants for this product.g", async()=>{
         const {product, variants, error} = await client.catalog.getProduct(71);
 		expect(error).toBeNull();
@@ -24,6 +25,7 @@ describe("CatalogAPI", ()=>{
 		expect(variants).toBeDefined();
 	});
 
+	// TODO: need negative tests
 	it("should return information about a specific Variant and its Product", async ()=>{
         const {product, variant, error} = await client.catalog.getVariant(4018);
 		expect(error).toBeNull();
@@ -31,6 +33,7 @@ describe("CatalogAPI", ()=>{
 		expect(variant).toBeDefined();
 	});
 
+	// TODO: need negative tests
 	it("should return information about the size guide for a specific product.", async ()=>{
         const {product_id, available_sizes, size_tables, error} = await client.catalog.getSize(71);
 		expect(error).toBeNull();
@@ -45,6 +48,7 @@ describe("CatalogAPI", ()=>{
 		expect(categories).toBeDefined();
 	})
 
+	//TODO: need negative tests
 	it("should return information about a specific category", async ()=>{
 		const {category, error} = await client.catalog.getCategory(24);
 		expect(error).toBeNull();
