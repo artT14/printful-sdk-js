@@ -17,7 +17,7 @@ export default class ProductTemplatesAPI extends GenericAPI{
      * 
      * @returns {promise} {templates,paging,error}
      */
-    async getAllTemplates(offset: number, limit: number){
+    async getAllTemplates(offset?: number, limit?: number){
         const params = new URLSearchParams({});
         offset && params.append("offset", String(offset));
         limit && params.append("limit", String(limit));

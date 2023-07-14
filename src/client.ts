@@ -24,7 +24,6 @@ export class PrintfulStoreClient{
     public oauth: OAuthAPI;
     public catalog: CatalogAPI;
     public products: ProductsAPI;
-    public productTemplates: ProductTemplatesAPI;
     public orders: OrdersAPI;
     public fileLibrary: FileLibraryAPI;
     public shippingRate: ShippingRateAPI;
@@ -44,7 +43,6 @@ export class PrintfulStoreClient{
         this.oauth = new OAuthAPI(this.headers, this.origin);
         this.catalog = new CatalogAPI(this.headers, this.origin);
         this.products = new ProductsAPI(this.headers, this.origin);
-        this.productTemplates = new ProductTemplatesAPI(this.headers, this.origin);
         this.orders = new OrdersAPI(this.headers, this.origin);
         this.fileLibrary = new FileLibraryAPI(this.headers, this.origin);
         this.shippingRate = new ShippingRateAPI(this.headers, this.origin);

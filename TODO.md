@@ -1,6 +1,7 @@
 # TODO List
 ---
 > TEST: Set up Jest Testing Lab, and test all endpoints
+> IMPLEMENT: Account Client
 > DOCUMENT: Add JSDOC comments
 > Set Up Different types of Clients, Store/Account
 
