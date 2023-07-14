@@ -1,5 +1,5 @@
 export type WebhookConfig = {
 	url: string,
-	types: string,
+	types: Array<string>,
 	params?: object
 }
