@@ -28,7 +28,7 @@ export class PrintfulStoreClient{
     public fileLibrary: FileLibraryAPI;
     public shippingRate: ShippingRateAPI;
     public ecommerceSync: EcommerceSyncAPI;
-    public countryStateCode: CountryCodesAPI;
+    public countryCodes: CountryCodesAPI;
     public taxRate: TaxRateAPI;
     public webhook: WebhookAPI;
     public storeInformation: StoreInformationAPI;
@@ -47,7 +47,7 @@ export class PrintfulStoreClient{
         this.fileLibrary = new FileLibraryAPI(this.headers, this.origin);
         this.shippingRate = new ShippingRateAPI(this.headers, this.origin);
         this.ecommerceSync = new EcommerceSyncAPI(this.headers, this.origin);
-        this.countryStateCode = new CountryCodesAPI(this.origin);
+        this.countryCodes = new CountryCodesAPI(this.origin);
         this.taxRate = new TaxRateAPI(this.origin);
         this.webhook = new WebhookAPI(this.headers, this.origin);
         this.storeInformation = new StoreInformationAPI(this.headers, this.origin);
