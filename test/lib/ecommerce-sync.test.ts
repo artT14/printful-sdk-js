@@ -60,5 +60,12 @@ describe("EcommerceSyncAPI Tests", ()=>{
 	})
 
 	/* deleteEcommVariant() */
-	it("", async ()=>{})
+	it("Deletes configuraton information (variant_id, print files and options) and disables automatic order importing for this Sync Variant", async ()=>{
+		const {product: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
+        const {sync_variants} = await client.ecommerceSync.getEcommProduct(id);
+        const {sync_variant, sync_product, error} = await client.ecommerceSync.deleteEcommVariant(sync_variants[0].id);
+		expect(error).toBeNull();
+		expect(sync_product).toBeDefined();
+		expect(sync_variant).toBeDefined();
+	})
 })
