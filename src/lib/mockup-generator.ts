@@ -42,7 +42,7 @@ export default class MockupGeneratorAPI extends GenericAPI{
      * 
      * @returns {promise} {files, error}
      */
-    async getProductVariantPrintFiles(id: number, orientation: Orientation = "", technique: string){
+    async getProductVariantPrintFiles(id?: number, orientation?: Orientation, technique?: string){
         const params = new URLSearchParams({});
         orientation && params.append("orientation", orientation);
         technique && params.append("technique", technique);
@@ -81,7 +81,7 @@ export default class MockupGeneratorAPI extends GenericAPI{
      * 
      * @returns {promise} {files, error}
      */
-    async getLayoutTemplates(id: number, orientation: Orientation = "", technique: string){
+    async getLayoutTemplates(id: number, orientation?: Orientation, technique?: string){
         const params = new URLSearchParams({});
         orientation && params.append("orientation", orientation);
         technique && params.append("technique", technique);
@@ -90,10 +90,10 @@ export default class MockupGeneratorAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {result: files, code, error} = await data;
+        const {result: templates, code, error} = await data;
         if (code >= 400){
-            return {files: null, error};
+            return {templates: null, error};
         }
-        return {files, error: null}
+        return {templates, error: null}
     }
 }

@@ -5,10 +5,10 @@ export type MockupTask = {
 	format?: string,
 	width?: number,
 	product_options?: object,
-	option_groups: Array<string>,
-	options: Array<string>,
-	files: Array<MockupFile>,
-	product_template_id: number
+	option_groups?: Array<string>,
+	options?: Array<string>,
+	files?: Array<MockupFile>,
+	product_template_id?: number
 }
 
 export type Orientation = "horizontal" | "vertical" | ""
