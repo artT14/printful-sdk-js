@@ -8,6 +8,11 @@ import type { Headers } from "../types/headers";
 export default class OAuthAPI extends GenericAPI{
     constructor(headers: Headers, origin: string){super(headers, origin)}
 
+    /**
+     * Returns a list of scopes associated with the token
+     * 
+     * @returns {promise} {scopes, error}
+     */
     async getScopes(){
         const url = this.origin+"/oauth/scopes";
         const response = await fetch(url,{headers: this.headers});
