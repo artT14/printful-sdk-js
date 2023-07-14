@@ -15,9 +15,9 @@ export type ShippingRecipient = {
 }
 
 export type ShippingItem = {
-    variant_id: string,
-    external_variant_id: string,
-    warehouse_product_variant_id: string,
+    variant_id?: number | string,
+    external_variant_id?: string,
+    warehouse_product_variant_id?: string,
     quantity: number,
-    value: string
+    value?: string
 }
