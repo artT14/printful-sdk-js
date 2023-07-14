@@ -27,7 +27,7 @@ describe("StoreInformationAPI Tests", ()=>{
         const {stores, error} = await client.storeInformation.getAllStoresInfo();
         expect(error).toBeNull();
         expect(stores).toBeDefined();
-    })
+    });
 
     /* getStoreInfo() */
     // TODO: needs more tests
@@ -36,5 +36,5 @@ describe("StoreInformationAPI Tests", ()=>{
         const {store, error} = await client.storeInformation.getStoreInfo(stores[0].id);
         expect(error).toBeNull();
         expect(store).toBeDefined();
-    })
+    });
 })
