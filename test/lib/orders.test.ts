@@ -1,4 +1,5 @@
 import {createPrintfulStoreClient, PrintfulStoreClient} from "../../src/client";
+import { EXAMPLE_ORDER } from "../data/orders";
 require('dotenv').config()
 
 // NOTE: These Tests are optimistic, see TODO 
@@ -60,5 +61,10 @@ describe("OrdersAPI Tests", ()=>{
 
     /* estimateOrderCost() */
     // TODO: needs negative tests
-    it("")
+    it("Calculates the estimated order costs", async ()=>{
+        const {costs, retail_costs, error} = await client.orders.estimateOrderCost(EXAMPLE_ORDER);
+        expect(error).toBeNull();
+        expect(costs).toBeDefined();
+        expect(retail_costs).toBeDefined();
+    })
 })

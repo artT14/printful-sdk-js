@@ -8,7 +8,7 @@ export type Order = {
     items: Array<OrderItem>,                // Array of items in the order
     retail_costs?: OrderRetailCosts,        // Retail costs that are to be displayed on the packing slip for international shipments. Retail costs are used only if every item in order contains the retail_price attribute.
     gift?: OrderGift,                       // Optional gift message for the packing slip
-    packing_slip?: OrderPackingSlip         // Custom packing slip for this order.
+    packing_slip?: OrderPackingSlip | object        // Custom packing slip for this order.
 }
 
 export type OrderRecipient = {
@@ -45,7 +45,7 @@ export type OrderItem = {
     product?: ProductVariant,               // Short information about the Printful Product and Variant
     files?: Array<File>,                    // Array of attached printfiles / preview images
     options?: Array<ItemOption>,            // Array of additional options for this product
-    sku?: string,                           // Product identifier (SKU) from the external system
+    sku?: string | null,                           // Product identifier (SKU) from the external system
     discountinued?: boolean,                // Whether the item belongs to discontinued product i.e. it's permanently unavailable
     out_of_stock?: boolean                  // Whether the item is out of stock i.e. temporarily unavailable
 }
