@@ -31,14 +31,14 @@ export default class StoreInformationAPI extends GenericAPI{
     }
 
     /**
-     * Get basic information about a store based on provided ID
+     * Get basic information about stores depending on the token access level
      * 
      * @param {number} offset - Offset for query
      * @param {number} limit  - Limit for query
      * 
      * @returns {promise} {stores, paging, error}
      */
-    async getStoresInfo(offset: number,limit: number){
+    async getAllStoresInfo(offset?: number,limit?: number){
         const params = new URLSearchParams({});
         offset && params.append("offset", String(offset));
         limit && params.append("limit", String(limit));
