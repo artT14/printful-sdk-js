@@ -19,7 +19,7 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @returns {promise} {orders, paging, error}
      */
-    async getOrders(offset: number, limit: number, status: OrderStatus){
+    async getAllOrders(offset?: number, limit?: number, status?: OrderStatus){
         const params = new URLSearchParams({})
         offset && params.append("offset", String(offset));
         limit && params.append("limit", String(limit));
@@ -46,7 +46,7 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @returns {promise} {order, error}
      */
-    async createOrder(newOrder: Order, confirm: boolean, update_existing: boolean){
+    async createOrder(newOrder: Order, confirm?: boolean, update_existing?: boolean){
         const params = new URLSearchParams({});
         confirm !== undefined && params.append("confirm", String(confirm));
         update_existing !== undefined && params.append("update_existing", String(update_existing));
@@ -124,7 +124,7 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @returns {promise} {order, error}
      */
-    async updateOrder(id: number|string, orderData: Order, confirm: boolean){
+    async updateOrder(id: number|string, orderData: Order, confirm?: boolean){
         const params = new URLSearchParams({});
         confirm !== undefined && params.append("confirm", String(confirm));
         const url = this.origin+"/orders/"+id+"?" + params.toString();

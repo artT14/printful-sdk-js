@@ -8,6 +8,7 @@ beforeAll(()=>{
 })
 
 describe("OAuthAPI Tests", ()=>{
+	/* getScopes() */
 	it("should return all scopes given a token", async ()=>{
 		const {scopes, error} = await client.oauth.getScopes()
 		expect(error).toBeNull();

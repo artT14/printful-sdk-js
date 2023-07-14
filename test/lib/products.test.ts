@@ -12,6 +12,7 @@ beforeAll(()=>{
 })
 
 describe("ProductsAPI Tests", ()=>{
+	/* getAllSyncProducts() */
 	// TODO: needs negative tests
 	it("should return a list of Sync Product objects from your custom Printful store.", async ()=>{
 		const {products, paging, error} = await client.products.getAllSyncProducts();
@@ -20,6 +21,7 @@ describe("ProductsAPI Tests", ()=>{
 		expect(paging.total).toBeDefined();
 	});
 
+	/* getSyncProduct() */
 	//TODO: needs negative tests
 	it("should get information about a single Sync Product and its Sync Variants.", async ()=>{
         const {sync_product, sync_variants, error} = await client.products.getSyncProduct(314179759);
@@ -28,6 +30,7 @@ describe("ProductsAPI Tests", ()=>{
 		expect(sync_variants).toBeDefined();
 	});
 
+	/* createSyncProduct() */
 	//TODO: needs negative tests
 	it("should create a new Sync Product together with its Sync Variants", async ()=>{
 		const {product, error} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
@@ -35,6 +38,7 @@ describe("ProductsAPI Tests", ()=>{
 		expect(product).toBeDefined();
 	});
 
+	/* createSyncProduct() */
 	//TODO: needs negative tests
 	it("should delete a Sync Product with all of its Sync Variants", async ()=>{
 		const {product} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
@@ -43,6 +47,7 @@ describe("ProductsAPI Tests", ()=>{
 		expect(result).toHaveLength(0);
 	});
 
+	/* modifySyncProduct() */
 	//TODO: needs negative tests
 	it("should modify an existing Sync Product with its Sync Variants.", async ()=>{
 		const {product: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
@@ -52,6 +57,7 @@ describe("ProductsAPI Tests", ()=>{
 		expect(product.name).toBe(SYNC_PRODUCT_2.name);
 	});
 
+	/* getSyncVariant() */
 	//TODO: needs negative tests
 	it("should get information about a single Sync Variant.", async ()=>{
 		const {products} = await client.products.getAllSyncProducts();
@@ -61,6 +67,7 @@ describe("ProductsAPI Tests", ()=>{
 		expect(variant).toBeDefined();
 	});
 
+	/* deleteSyncVariant() */
 	//TODO: needs negative tests
 	it("should delete a single Sync Variant", async ()=>{
 		const {product: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
@@ -70,6 +77,7 @@ describe("ProductsAPI Tests", ()=>{
 		expect(result).toHaveLength(0);
 	})
 
+	/* modifySyncVariant() */
 	//TODO: needs negative tests
 	it("should modify an existing Sync Variant.", async ()=>{
 		const {product: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
@@ -79,14 +87,14 @@ describe("ProductsAPI Tests", ()=>{
 		expect(variant.variant_id).toBe(MODIFIED_SYNC_VARIANT.variant_id);
 	})
 
-	//TODO: getting 404 for all sync products, have reached out to printful Dev Support
+	/* createSyncVariant() */
 	//TODO: needs negative tests
-	// it("should create a new Sync Variant for an existing Sync Product", async ()=>{
-	// 	const {product: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
-	// 	const {variant, error} = await client.products.createSyncVariant(id, MODIFIED_SYNC_VARIANT);
-    //     const {sync_variants} = await client.products.getSyncProduct(id);
-	// 	expect(error).toBeNull();
-	// 	expect(variant.variant_id).toBe(MODIFIED_SYNC_VARIANT.variant_id);
-	// 	expect(sync_variants).toHaveLength(SYNC_VARIANTS.length+1);
-	// })
+	it("should create a new Sync Variant for an existing Sync Product", async ()=>{
+		const {product} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
+		const {variant, error} = await client.products.createSyncVariant(product.id, MODIFIED_SYNC_VARIANT);
+		expect(error).toBeNull();
+		expect(variant.variant_id).toBe(MODIFIED_SYNC_VARIANT.variant_id);
+        const {sync_variants} = await client.products.getSyncProduct(product.id);
+		expect(sync_variants).toHaveLength(SYNC_VARIANTS.length+1);
+	})
 })

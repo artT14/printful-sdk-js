@@ -191,27 +191,27 @@ export default class ProductsAPI extends GenericAPI{
     }
 
 	//TODO: getting 404 for all sync products, have reached out to printful Dev Support
-    // /**
-    //  * Creates a new Sync Variant for an existing Sync Product
-    //  * {@link https://developers.printful.com/docs/?_gl=1*1sbmfdi*_ga*NDMzMTM2Mjk0LjE2ODcyMzU3MDc.*_ga_EZ4XVRL864*MTY4ODc3OTM1NC4xMi4xLjE2ODg3ODEwMzYuMTAuMC4w#section/Products-API-examples/Create-a-new-Sync-Variant See Examples}
-    //  * 
-    //  * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
-    //  * @param {SyncVariant} sync_variant - Information about the Sync Variant
-    //  * 
-    //  * @returns {promise} {variant, error}
-    //  */
-    // async createSyncVariant(id: number | string, sync_variant: SyncVariant){
-    //     const url = this.origin+"/store/products/"+{id}+"/variants";
-    //     const response = await fetch(url, {
-    //         method: "POST",
-    //         body: JSON.stringify(sync_variant),
-    //         headers: this.headers
-    //     });
-    //     const data = await response.json();
-    //     const {result: variant, code, error} = await data;
-    //     if (code >= 400){
-    //         return {variant: null, error};
-    //     }
-    //     return {variant, error: null};
-    // }
+    /**
+     * Creates a new Sync Variant for an existing Sync Product
+     * {@link https://developers.printful.com/docs/?_gl=1*1sbmfdi*_ga*NDMzMTM2Mjk0LjE2ODcyMzU3MDc.*_ga_EZ4XVRL864*MTY4ODc3OTM1NC4xMi4xLjE2ODg3ODEwMzYuMTAuMC4w#section/Products-API-examples/Create-a-new-Sync-Variant See Examples}
+     * 
+     * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
+     * @param {SyncVariant} sync_variant - Information about the Sync Variant
+     * 
+     * @returns {promise} {variant, error}
+     */
+    async createSyncVariant(id: number | string, sync_variant: SyncVariant){
+        const url = this.origin+"/store/products/"+id+"/variants";
+        const response = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify(sync_variant),
+            headers: this.headers
+        });
+        const data = await response.json();
+        const {result: variant, code, error} = await data;
+        if (code >= 400){
+            return {variant: null, error};
+        }
+        return {variant, error: null};
+    }
 }
