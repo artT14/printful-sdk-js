@@ -15,7 +15,7 @@ export default class TaxRateAPI{
      * 
      * @returns {promise} {taxList, error}
      */
-    async getCountryTexList(){
+    async getCountryTaxList(){
         const url = this.origin + "/tax/countries";
         const response = await fetch(url);
         const data = await response.json();
