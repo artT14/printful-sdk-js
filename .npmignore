@@ -1,0 +1,18 @@
+#env
+.env
+.env.*
+
+# dependancies
+node_modules
+
+#project files
+test
+dev_notes
+
+#configs
+.gitignore
+jest.config.js
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+ts.config.json
