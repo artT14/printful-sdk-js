@@ -1,4 +1,4 @@
-# Printful SDK for JavaScript Developers
+# Printful API SDK for JavaScript Developers
 
 ## Disclaimer:
 This is an unofficial SDK written by community members for the Printful API as described at the following [link](https://developers.printful.com/docs/).
@@ -22,4 +22,7 @@ If you come across any issues while using the package, please submit an issue on
 *WIP* *Coming soon...*
 
 ## Contribution
+*WIP* *Coming soon...*
+
+## Planned Features
 *WIP* *Coming soon...*

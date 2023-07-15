@@ -16,3 +16,6 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 ts.config.json
+
+#tarballs
+*.tgz
