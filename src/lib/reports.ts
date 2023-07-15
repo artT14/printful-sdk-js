@@ -10,6 +10,7 @@ export default class ReportsAPI extends GenericAPI{
     constructor(headers: Headers, origin: string){super(headers, origin)}
 
     /**
+     * Returns statistics for specified report types.
      * 
      * @param {RawDateString} date_from - Example: date_from=2022-08-01, The beginning of the period to get the statistics from (date in Y-m-d format).
      * @param {RawDateString} date_to - Example: date_to=2022-08-31, The end of the period to get the statistics from (date in Y-m-d format).
@@ -18,7 +19,7 @@ export default class ReportsAPI extends GenericAPI{
      * 
      * @returns {promise} {store_statistics, error}
      */
-    async getStats(date_from: RawDateString , date_to: RawDateString, report_types: string, currency: string){
+    async getStats(date_from: RawDateString , date_to: RawDateString, report_types: string, currency?: string){
         const params = new URLSearchParams({date_from, date_to, report_types});
         currency && params.append("currency", currency);
         const url = this.origin + "/reports/statistics?"+params.toString();
