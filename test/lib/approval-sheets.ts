@@ -10,6 +10,11 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
+// Wait 50 mili before each test to prevent from getting blocked
+beforeEach(async ()=>{
+	await new Promise((r) => setTimeout(r, 50));
+});
+
 describe("ApprovalSheetsAPI Tests", async () =>{
     /* getApprovalSheets() */
     it("Retrieve a list of approval sheets confirming suggested changes to files of on hold orders.", async ()=>{

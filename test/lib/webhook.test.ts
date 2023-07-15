@@ -11,6 +11,11 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
+// Wait 50 mili before each test to prevent from getting blocked
+beforeEach(async ()=>{
+	await new Promise((r) => setTimeout(r, 50));
+});
+
 describe("WebhookAPI Tests", ()=>{
     /* getWebhookConfig() */
     it("Returns configured webhook URL and list of webhook event types enabled for the store", async ()=>{

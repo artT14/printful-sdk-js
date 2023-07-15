@@ -11,6 +11,12 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
+
+// Wait 50 mili before each test to prevent from getting blocked
+beforeEach(async ()=>{
+	await new Promise((r) => setTimeout(r, 50));
+});
+
 describe("MockupGeneratorAPI Tests", ()=>{
     /* createMockupTask() */
     it("Creates an asynchronous mockup generation task.", async ()=>{
@@ -38,6 +44,7 @@ describe("MockupGeneratorAPI Tests", ()=>{
 
     /* getMockupTaskResult() */
     it("Returns asynchronous mockup generation task result.", async ()=>{
+        await new Promise((r) => setTimeout(r, 60000));
         const {task: taskToCheck} = await client.mockupGenerator.createMockupTask(71, EXAMPLE_MOCKUP_TASK);
         const {task, error} = await client.mockupGenerator.getMockupTaskResult(taskToCheck.task_key);
         expect(error).toBeNull();
