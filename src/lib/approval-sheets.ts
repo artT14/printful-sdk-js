@@ -31,7 +31,7 @@ export default class ApprovalSheetsAPI extends GenericAPI{
      * Uses the confirm hash of an approval sheet to approve a design and remove the hold on an order
      * 
      * @param {string} confirm_hash - Example: confirm_hash=a14e51714be01f98487fcf5131727d31, The confirm hash for the approval sheet you would like to approve.
-     * @param {string}status - Value: "approved"
+     * @param {string} status - Value: "approved"
      * 
      * @returns {promise} {message, error}
      */
@@ -54,6 +54,12 @@ export default class ApprovalSheetsAPI extends GenericAPI{
         return {message, error: null}
     }
 
+    /**
+     * 
+     * @param {string} confirm_hash - Example: confirm_hash=a14e51714be01f98487fcf5131727d31, The confirm hash for the approval sheet you would like to approve.
+     * @param {ApprovalSheetChanges} changes - Data to be submitted to Printful designers
+     * @returns {promise} {result, error}
+     */
     async changeApprovalSheet(confirm_hash: string, changes: ApprovalSheetChanges){
         const params = new URLSearchParams({confirm_hash});
         const url = this.origin + "/approval-sheets/changes?"+params.toString();
