@@ -8,6 +8,7 @@ node_modules
 #project files
 test
 dev_notes
+docs
 
 #configs
 .gitignore
