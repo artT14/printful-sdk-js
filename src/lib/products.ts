@@ -35,20 +35,6 @@ export default class ProductsAPI extends GenericAPI{
     }
 
     /**
-     * Get information about a single Sync Product and its Sync Variants.
-     * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
-     * 
-     * @returns {promise} {result, code, error}
-     */
-    async getSyncProduct(id: number | string){
-        const url = this.origin+"/store/products/"+id;
-        const response = await fetch(url, {headers:this.headers});
-        const data = await response.json();
-        const {result, code, error} = await data;
-        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
-    }
-
-    /**
      * Creates a new Sync Product together with its Sync Variants. See Examples: {@link https://developers.printful.com/docs/?_gl=1*1sbmfdi*_ga*NDMzMTM2Mjk0LjE2ODcyMzU3MDc.*_ga_EZ4XVRL864*MTY4ODc3OTM1NC4xMi4xLjE2ODg3ODEwMzYuMTAuMC4w#section/Products-API-examples/Create-a-new-Sync-Product Link}
      * 
      * Params:
@@ -64,6 +50,21 @@ export default class ProductsAPI extends GenericAPI{
             headers: this.headers,
             body: JSON.stringify({sync_product, sync_variants})
         });
+        const data = await response.json();
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
+    }
+
+    /**
+     * Get information about a single Sync Product and its Sync Variants.
+     * 
+     * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
+     * 
+     * @returns {promise} {result, code, error}
+     */
+    async getSyncProduct(id: number | string){
+        const url = this.origin+"/store/products/"+id;
+        const response = await fetch(url, {headers:this.headers});
         const data = await response.json();
         const {result, code, error} = await data;
         return code >= 400 ? {result: null, code, error} : {result, code, error: null};
