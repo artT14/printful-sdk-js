@@ -11,17 +11,14 @@ export default class CatalogAPI extends GenericAPI{
     /** 
      * Returns list of Products available in the Printful
      * 
-     * @returns {promise} {products, error}
+     * @returns {promise} {result, code, error}
      * */
     async getAllProducts(){
         const url = this.origin+"/products";
         const response = await fetch(url);
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {products: null, error};
-        }
-        return {products: result, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /** 
@@ -29,36 +26,29 @@ export default class CatalogAPI extends GenericAPI{
      * 
      * @param {int} id - Product ID.
      * 
-     * @returns {promise} {product, variants, error}
+     * @returns {promise} {result, code, error}
     */
     async getProduct(id: number){
         const url = this.origin+"/products/"+id;
         const response = await fetch(url);
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {product: null, variants:[], error};
-        }
-        const {product, variants} = await result;
-        return {product, variants, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
+
     }
 
     /** 
      * Returns information about a specific Variant and its Product
      * @param {int} id - Product ID.
      * 
-     * @returns {promise} {product, variant, error}
+     * @returns {promise} {result, code, error}
      * */
     async getVariant(id: number){
         const url = this.origin+"/products/variant/"+id;
         const response = await fetch(url);
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {product: null, variant: null, error};
-        }
-        const {product, variant} = await result;
-        return {product, variant, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /** 
@@ -66,53 +56,42 @@ export default class CatalogAPI extends GenericAPI{
      * @param {int} id - Product ID.
      * @param {boolean} [metric=true] - set true to return sizes in cm as opposed to inches (optional)
      * 
-     * @returns {promise} {product_id, available_sizes, size_tables, error}
+     * @returns {promise} {result, code, error}
      * */
-    async getSize(id: number,metric=false){
+    async getSize(id: number, metric=false){
         const params = new URLSearchParams({unit: metric?"cm":"inches"});
         const url = this.origin+"/products/"+id+"/sizes?"+ params.toString();
         const response = await fetch(url);
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {product_id: null, available_sizes: null, size_tables: null, error};
-        }
-        const {product_id, available_sizes, size_tables} = await result;
-        return {product_id, available_sizes, size_tables, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
      * Returns list of Catalog Categories available in the Printful
      * 
-     * @returns {promise}
+     * @returns {promise} {result, code, error}
      */
     async getAllCategories(){
         const url = this.origin+"/categories/";
         const response = await fetch(url);
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {categories: null, error};
-        }
-        const {categories} = await result;
-        return {categories, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /** 
      * Returns information about a specific category.
      * @param {int} id - Category ID
      * 
-     * @returns {promise} {category, error}
+     * @returns {promise} {result, code, error}
      * */
     async getCategory(id: number){
         const url = this.origin+"/categories/"+id;
         const response = await fetch(url);
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {category: null, error};
-        }
-        const {category} = await result;
-        return {category, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
+
     }
 }

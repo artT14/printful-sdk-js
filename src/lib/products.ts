@@ -20,7 +20,7 @@ export default class ProductsAPI extends GenericAPI{
      * Optional Params:
      * @param {string} [category_id] - (Optional) A comma-separated list of Category IDs of the Products that are to be returned
      * 
-     * @returns {promise} {products, paging, error}
+     * @returns {promise} {result, paging, code, error}
      */
     async getAllSyncProducts(offset?: number, limit?: number, category_id?: string){
         const params = new URLSearchParams({});
@@ -30,29 +30,22 @@ export default class ProductsAPI extends GenericAPI{
         const url = this.origin+"/store/products?" + params.toString();
         const response = await fetch(url, {headers:this.headers});
         const data = await response.json();
-        const {result: products, paging, code, error} = await data;
-        if (code >= 400){
-            return {products: null, paging: {offset,limit}, error};
-        }
-        return {products, paging, error: null}
+        const {result, paging, code, error} = await data;
+        return code >= 400 ? {result: null, paging: {offset,limit}, code, error} : {result, paging, code, error: null};
     }
 
     /**
      * Get information about a single Sync Product and its Sync Variants.
      * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
      * 
-     * @returns {promise} {sync_product, sync_variants, error}
+     * @returns {promise} {result, code, error}
      */
     async getSyncProduct(id: number | string){
         const url = this.origin+"/store/products/"+id;
         const response = await fetch(url, {headers:this.headers});
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {sync_product: null, sync_variants: null, error};
-        }
-        const {sync_product, sync_variants} = await result;
-        return {sync_product, sync_variants, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -62,7 +55,7 @@ export default class ProductsAPI extends GenericAPI{
      * @param {SyncProduct} sync_product - Information about the SyncProduct
      * @param {Array<SyncVariant>} sync_variants - Information about the Sync Variants
      * 
-     * @returns {promise} {product, error}
+     * @returns {promise} {result, code, error}
      */
     async createSyncProduct(sync_product: SyncProduct, sync_variants: Array<SyncVariant>){
         const url = this.origin+"/store/products";
@@ -72,18 +65,15 @@ export default class ProductsAPI extends GenericAPI{
             body: JSON.stringify({sync_product, sync_variants})
         });
         const data = await response.json();
-        const {result: product, code, error} = await data;
-        if (code >= 400){
-            return {product: null, error};
-        }
-        return {product, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
      * Deletes a Sync Product with all of its Sync Variants
      * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
      * 
-     * @returns {promise} {sync_product, sync_variants, error}
+     * @returns {promise} {result, code, error}
      */
     async deleteSyncProduct(id: number | string){
         const url = this.origin+"/store/products/"+id;
@@ -93,10 +83,7 @@ export default class ProductsAPI extends GenericAPI{
         });
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {result: null, error};
-        }
-        return {result, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -109,7 +96,7 @@ export default class ProductsAPI extends GenericAPI{
      * @param {OptionalSyncProduct} sync_product - Information about the SyncProduct
      * @param {Array<OptionalSyncVariant>} sync_variants - Information about the Sync Variants
      * 
-     * @returns {promise} {product, error}
+     * @returns {promise} {result, code, error}
      */
     async modifySyncProduct(id: number | string, sync_product?: OptionalSyncProduct, sync_variants?: Array<OptionalSyncVariant>){
         const url = this.origin+"/store/products/"+id;
@@ -119,11 +106,8 @@ export default class ProductsAPI extends GenericAPI{
             body: JSON.stringify({sync_product, sync_variants})
         });
         const data = await response.json();
-        const {result: product, code, error} = await data;
-        if (code >= 400){
-            return {product: null, error};
-        }
-        return {product, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -131,17 +115,14 @@ export default class ProductsAPI extends GenericAPI{
 
      * @param {int|string} id -  Sync Variant ID (integer) or External ID (if prefixed with `@`)
      *
-     * @returns {promise} {variant, error}
+     * @returns {promise} {result, code, error}
      */
     async getSyncVariant(id: number | string){
         const url = this.origin+"/store/variants/"+id;
         const response = await fetch(url, {headers: this.headers});
         const data = await response.json();
-        const {result: variant, code, error} = await data;
-        if (code >= 400){
-            return {variant: null, error};
-        }
-        return {variant, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
     
     /**
@@ -149,7 +130,7 @@ export default class ProductsAPI extends GenericAPI{
      * 
      * @param {int|string} id - Sync Variant ID (integer) or External ID (if prefixed with `@`)
      * 
-     * @returns {promise} {result, error}
+     * @returns {promise} {result, code, error}
      */
     async deleteSyncVariant(id: number | string){
         const url = this.origin+"/store/variants/"+id;
@@ -159,10 +140,7 @@ export default class ProductsAPI extends GenericAPI{
         });
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {result: null, error};
-        }
-        return {result, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -173,7 +151,7 @@ export default class ProductsAPI extends GenericAPI{
      * @param {int|string} id - Sync Variant ID (integer) or External ID (if prefixed with `@`)
      * @param {OptionalSyncVariant} sync_variant - Information about the Sync Variant
      *
-     * @returns {promise} {variant, error}
+     * @returns {promise} {result, code, error}
      */
     async modifySyncVariant(id: number | string, sync_variant: OptionalSyncVariant){
         const url = this.origin+"/store/variants/"+id;
@@ -183,14 +161,10 @@ export default class ProductsAPI extends GenericAPI{
             headers: this.headers
         });
         const data = await response.json();
-        const {result: variant, code, error} = await data;
-        if (code >= 400){
-            return {variant: null, error};
-        }
-        return {variant, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
-	//TODO: getting 404 for all sync products, have reached out to printful Dev Support
     /**
      * Creates a new Sync Variant for an existing Sync Product
      * {@link https://developers.printful.com/docs/?_gl=1*1sbmfdi*_ga*NDMzMTM2Mjk0LjE2ODcyMzU3MDc.*_ga_EZ4XVRL864*MTY4ODc3OTM1NC4xMi4xLjE2ODg3ODEwMzYuMTAuMC4w#section/Products-API-examples/Create-a-new-Sync-Variant See Examples}
@@ -198,7 +172,7 @@ export default class ProductsAPI extends GenericAPI{
      * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
      * @param {SyncVariant} sync_variant - Information about the Sync Variant
      * 
-     * @returns {promise} {variant, error}
+     * @returns {promise} {result, code, error}
      */
     async createSyncVariant(id: number | string, sync_variant: SyncVariant){
         const url = this.origin+"/store/products/"+id+"/variants";
@@ -208,10 +182,7 @@ export default class ProductsAPI extends GenericAPI{
             headers: this.headers
         });
         const data = await response.json();
-        const {result: variant, code, error} = await data;
-        if (code >= 400){
-            return {variant: null, error};
-        }
-        return {variant, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }
