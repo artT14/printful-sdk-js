@@ -15,7 +15,7 @@ export default class WarehouseProductsAPI extends GenericAPI{
      * @param {number} offset - Number of items per page (max 100)
      * @param {number} limit - Result set offset
      * 
-     * @returns {promise} {products, paging, error}
+     * @returns {promise} {result, paging, code, error}
      */
     async getAllWarehouseProducts(query?: string, offset?: number, limit?: number){
         const params = new URLSearchParams({});
@@ -27,11 +27,8 @@ export default class WarehouseProductsAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {result: products, paging, code, error} = await data;
-        if (code >= 400){
-            return {products: null, paging: {offset, limit}, error};
-        }
-        return {products, paging, error: null};
+        const {result, paging, code, error} = await data;
+        return code >= 400 ? {result: null, paging: {offset,limit}, code, error} : {result, paging, code, error: null};
     }
 
     /**
@@ -39,7 +36,7 @@ export default class WarehouseProductsAPI extends GenericAPI{
      * 
      * @param {int|string} id - Product ID
      * 
-     * @returns {promise} {product, error}
+     * @returns {promise} {result, code, error}
      */
     async getWarehouseProduct(id: number | string){
         const url = this.origin + "/warehouse/products/" + id;
@@ -47,10 +44,7 @@ export default class WarehouseProductsAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {result: product, code, error} = await data;
-        if (code >= 400){
-            return {product: null, error};
-        }
-        return {product, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

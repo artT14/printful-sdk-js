@@ -17,7 +17,7 @@ export default class OrdersAPI extends GenericAPI{
      * @param {int} offset -  Result set offset
      * @param {int} limit -  Number of items per page (max 100)
      * 
-     * @returns {promise} {orders, paging, error}
+     * @returns {promise} {result, paging, code, error}
      */
     async getAllOrders(offset?: number, limit?: number, status?: OrderStatus){
         const params = new URLSearchParams({})
@@ -29,11 +29,8 @@ export default class OrdersAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {code, result: orders, paging, error} = await data;
-        if (code >= 400){
-            return {orders: null, paging: {offset, limit}, error};
-        }
-        return {orders, paging, error: null};
+        const {result, paging, code, error} = await data;
+        return code >= 400 ? {result: null, paging: {offset,limit}, code, error} : {result, paging, code, error: null};
     }
 
     /**
@@ -44,7 +41,7 @@ export default class OrdersAPI extends GenericAPI{
      * @param {boolean} confirm - Automatically submit the newly created order for fulfillment (skip the Draft phase)
      * @param {boolean} update_existing - Try to update existing order if an order with the specified external_id already exists
      * 
-     * @returns {promise} {order, error}
+     * @returns {promise} {result, code, error}
      */
     async createOrder(newOrder: Order, confirm?: boolean, update_existing?: boolean){
         const params = new URLSearchParams({});
@@ -57,11 +54,8 @@ export default class OrdersAPI extends GenericAPI{
             body: JSON.stringify(newOrder)
         });
         const data = await response.json();
-        const {code, result: order, error} = await data;
-        if (code >= 400){
-            return {order: null, error};
-        }
-        return {order, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -69,7 +63,7 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @param {int|string} id - Order ID (integer) or External ID (if prefixed with `@`)
      * 
-     * @returns {promise} {order, error}
+     * @returns {promise} {result, code, error}
      */
     async getOrder(id: number|string){
         const url = this.origin+"/orders/"+id;
@@ -77,11 +71,8 @@ export default class OrdersAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {code, result: order, error} = await data;
-        if (code >= 400){
-            return {order: null, error};
-        }
-        return {order, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -89,7 +80,7 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @param {int|string} id - Order ID (integer) or External ID (if prefixed with `@`)
      * 
-     * @returns {promise} {order, error}
+     * @returns {promise} {result, code, error}
      */
     async cancelOrder(id: number|string){
         const url = this.origin+"/orders/"+id;
@@ -98,11 +89,8 @@ export default class OrdersAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {code, result: order, error} = await data;
-        if (code >= 400){
-            return {order: null, error};
-        }
-        return {order, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -122,7 +110,7 @@ export default class OrdersAPI extends GenericAPI{
      * @param {Order} orderData - Update information about the order
      * @param {boolean} confirm - Automatically submit the newly created order for fulfillment (skip the Draft phase)
      * 
-     * @returns {promise} {order, error}
+     * @returns {promise} {result, code, error}
      */
     async updateOrder(id: number|string, orderData: Order, confirm?: boolean){
         const params = new URLSearchParams({});
@@ -134,11 +122,8 @@ export default class OrdersAPI extends GenericAPI{
             body: JSON.stringify(orderData)
         });
         const data = await response.json();
-        const {code, result: order, error} = await data;
-        if (code >= 400){
-            return {order: null, error};
-        }
-        return {order, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -146,7 +131,7 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @param {int|string} id - Order ID (integer) or External ID (if prefixed with `@`)
      * 
-     * @returns {promise} {order, error}
+     * @returns {promise} {result, code, error}
      */
     async confirmOrder(id: number|string){
         const url = this.origin+"/orders/"+id+"/confirm";
@@ -155,11 +140,8 @@ export default class OrdersAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {code, result: order, error} = await data;
-        if (code >= 400){
-            return {order: null, error};
-        }
-        return {order, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -167,7 +149,7 @@ export default class OrdersAPI extends GenericAPI{
      * 
      * @param {Order} orderData - Information on order for which estimate will be returned
      * 
-     * @returns {promise} {costs, retail_costs, error}
+     * @returns {promise} {result, code, error}
      */
     async estimateOrderCost(orderData: Order){
         const url = this.origin+"/orders/estimate-costs";
@@ -177,11 +159,7 @@ export default class OrdersAPI extends GenericAPI{
             body: JSON.stringify(orderData)
         });
         const data = await response.json();
-        const {code, result, error} = await data;
-        if (code >= 400){
-            return {costs: null, retail_costs: null, error};
-        }
-        const {costs, retail_costs} = result;
-        return {costs, retail_costs, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

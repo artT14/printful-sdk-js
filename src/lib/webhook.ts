@@ -12,17 +12,14 @@ export default class WebhookAPI extends GenericAPI{
     /**
      * Returns configured webhook URL and list of webhook event types enabled for the store
      * 
-     * @returns {promise} {config, error}
+     * @returns {promise} {result, code, error}
      */
     async getWebhookConfig(){
         const url = this.origin+"/webhooks";
         const response = await fetch(url, {headers: this.headers});
         const data = await response.json();
-        const {result: config, code, error} = await data;
-        if (code >= 400){
-            return {config: null, error};
-        }
-        return {config, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -34,7 +31,7 @@ export default class WebhookAPI extends GenericAPI{
      * 
      * @param {WebhookConfig} newConfig - Webhook Configuration
      * 
-     * @returns {promise} {config, error} 
+     * @returns {promise} {result, code, error}
      */
     async setWebhookConfig(newConfig: WebhookConfig){
         const url = this.origin+"/webhooks";
@@ -44,17 +41,14 @@ export default class WebhookAPI extends GenericAPI{
             body: JSON.stringify(newConfig)
         });
         const data = await response.json();
-        const {result: config, code, error} = await data;
-        if (code >= 400){
-            return {config: null, error};
-        }
-        return {config, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
      * Removes the webhook URL and all event types from the store.
      * 
-     * @returns {promise} {config, error}
+     * @returns {promise} {result, code, error}
      */
     async disableWebhookSupport(){
         const url = this.origin+"/webhooks";
@@ -63,10 +57,7 @@ export default class WebhookAPI extends GenericAPI{
             headers: this.headers
         });
         const data = await response.json();
-        const {result: config, code, error} = await data;
-        if (code >= 400){
-            return {config: null, error};
-        }
-        return {config, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

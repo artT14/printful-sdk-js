@@ -17,7 +17,7 @@ export default class ReportsAPI extends GenericAPI{
      * @param {string} currency - Example: currency=USD, The currency (3-letter code) to return the statistics in. You can also specify display_currency as the value to get the statistics in the account's display currency. The store currency will be used by default.
      * @param {string} report_types - Example: report_types=sales_and_costs,profit; A comma-separated list of report types to be retrieved.
      * 
-     * @returns {promise} {store_statistics, error}
+     * @returns {promise} {result, code, error}
      */
     async getStats(date_from: RawDateString , date_to: RawDateString, report_types: string, currency?: string){
         const params = new URLSearchParams({date_from, date_to, report_types});
@@ -28,10 +28,6 @@ export default class ReportsAPI extends GenericAPI{
         });
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {store_statistics: null, error};
-        }
-        const {store_statistics} = await result;
-        return {store_statistics, error: null}
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

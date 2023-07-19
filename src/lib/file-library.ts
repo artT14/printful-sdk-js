@@ -16,7 +16,7 @@ export default class FileLibraryAPI extends GenericAPI{
      * 
      * @param {File} fileData - Information about file being added
      * 
-     * @returns {promise} {file, error}
+     * @returns {promise} {result, code, error}
      */
     async addFile(fileData: File){
         const url = this.origin+"/files";
@@ -26,11 +26,8 @@ export default class FileLibraryAPI extends GenericAPI{
             body: JSON.stringify(fileData)
         });
         const data = await response.json();
-        const {code, result: file, error} = await data;
-        if (code >= 400){
-            return {file: null, error};
-        }
-        return {file, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -38,7 +35,7 @@ export default class FileLibraryAPI extends GenericAPI{
      * 
      * @param {int|string} id - File ID.
      * 
-     * @returns {promise} {file, error}
+     * @returns {promise} {result, code, error}
      */
     async getFile(id: number | string){
         const url = this.origin+"/files/"+id;
@@ -46,11 +43,8 @@ export default class FileLibraryAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {code, result: file, error} = await data;
-        if (code >= 400){
-            return {file: null, error};
-        }
-        return {file, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -60,7 +54,7 @@ export default class FileLibraryAPI extends GenericAPI{
      * 
      * @param {string} file_url - URL to file
      * 
-     * @returns {promise} {thread_colors, error}
+     * @returns {promise} {result, code, error}
      */
     async getThreadColors(file_url: string){
         const url = this.origin+"/files/thread-colors";
@@ -70,11 +64,8 @@ export default class FileLibraryAPI extends GenericAPI{
             body: JSON.stringify({file_url})
         });
         const data = await response.json();
-        const {code, result: thread_colors, error} = await data;
-        if (code >= 400){
-            return {thread_colors: null, error};
-        }
-        return {thread_colors, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }
 

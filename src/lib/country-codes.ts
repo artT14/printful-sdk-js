@@ -12,16 +12,13 @@ export default class CountryCodesAPI{
     /**
      * Retrieve state list that requires sales tax calculation
      * 
-     * @returns {promise} {countryCodes, error}
+     * @returns {promise} {result, code, error}
      */
     async getCountryList(){
         const url = this.origin + "/countries";
         const response = await fetch(url);
         const data = await response.json();
-        const {result: countryCodes, code, error} = await data;
-        if (code >= 400){
-            return {countryCodes: null, error};
-        }
-        return {countryCodes, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

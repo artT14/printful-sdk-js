@@ -13,17 +13,14 @@ export default class TaxRateAPI{
     /**
      * Retrieve state list that requires sales tax calculation
      * 
-     * @returns {promise} {taxList, error}
+     * @returns {promise} {result, code, error}
      */
     async getCountryTaxList(){
         const url = this.origin + "/tax/countries";
         const response = await fetch(url);
         const data = await response.json();
-        const {result: taxList, code, error} = await data;
-        if (code >= 400){
-            return {taxList: null, error};
-        }
-        return {taxList, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -31,7 +28,7 @@ export default class TaxRateAPI{
      * 
      * @param {Recipient} recipient - Recipient address information
      * 
-     * @returns {promise} {taxRate, error}
+     * @returns {promise} {result, code, error}
      */
     async calcTax(recipient: Recipient){
         const url = this.origin + "/tax/rates";
@@ -40,10 +37,7 @@ export default class TaxRateAPI{
             body: JSON.stringify({recipient})
         });
         const data = await response.json();
-        const {result: taxRate, code, error} = await data;
-        if (code >= 400){
-            return {taxRate: null, error};
-        }
-        return {taxRate, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

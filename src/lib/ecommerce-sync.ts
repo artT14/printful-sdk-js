@@ -19,7 +19,7 @@ export default class EcommerceSyncAPI extends GenericAPI{
      * @param {string} status - Filter by item status (synced/unsynced/all). If only some of the variants are synced,the product is returned by both unsynced and synced filters
      * @param {string} search - Product search needle
      * 
-     * @returns {promise} {products, paging, error} 
+     * @returns {promise} {result, paging, code, error}
      */
     async getAllEcommProducts(offset?: number, limit?: number, status?: Status, search?: string){
         const params = new URLSearchParams({});
@@ -30,11 +30,8 @@ export default class EcommerceSyncAPI extends GenericAPI{
         const url = this.origin + "/sync/products?" + params.toString();
         const response = await fetch(url, {headers:this.headers});
         const data = await response.json();
-        const {result: products, paging, code, error} = await data;
-        if (code >= 400){
-            return {products: null, paging: {offset, limit}, error};
-        }
-        return {products, paging, error: null}
+        const {result, paging, code, error} = await data;
+        return code >= 400 ? {result: null, paging: {offset,limit}, code, error} : {result, paging, code, error: null};
     }
 
     /**
@@ -42,18 +39,14 @@ export default class EcommerceSyncAPI extends GenericAPI{
      * 
      * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
      * 
-     * @returns {promise} {sync_product, sync_variants, error}  
+     * @returns {promise} {result, code, error}
      */
     async getEcommProduct(id: number | string){
         const url = this.origin+"/sync/products/"+id;
         const response = await fetch(url, {headers:this.headers});
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {sync_product: null, sync_variants: null, error};
-        }
-        const {sync_product, sync_variants} = await result;
-        return {sync_product, sync_variants, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -61,7 +54,7 @@ export default class EcommerceSyncAPI extends GenericAPI{
      * 
      * @param id - Sync Product ID (integer) or External ID (if prefixed with `@`)
      * 
-     * @returns {promise} {result, error}
+     * @returns {promise} {result, code, error}
      */
     async deleteEcommProduct(id: number | string){
         const url = this.origin+"/sync/products/"+id;
@@ -71,10 +64,7 @@ export default class EcommerceSyncAPI extends GenericAPI{
         });
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {result: null, error};
-        }
-        return {result, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -82,18 +72,14 @@ export default class EcommerceSyncAPI extends GenericAPI{
      * 
      * @param {int|string} id - Sync Variant ID (integer) or External ID (if prefixed with `@`)
      * 
-     * @returns {promise} {sync_variant, sync_product, error}
+     * @returns {promise} {result, code, error}
      */
     async getEcommVariant(id: number | string){
         const url = this.origin+"/sync/variant/"+id;
         const response = await fetch(url, {headers: this.headers});
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {sync_variant: null, sync_product: null, error};
-        }
-        const {sync_variant, sync_product} = await result;
-        return {sync_variant, sync_product, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -104,7 +90,7 @@ export default class EcommerceSyncAPI extends GenericAPI{
      * @param {int|string} id - Sync Variant ID (integer) or External ID (if prefixed with `@`)
      * @param {OptionalSyncVariant} sync_variant_info - Information about the Sync Variant
      * 
-     * @returns {promise} return {sync_variant, sync_product, error}
+     * @returns {promise} {result, code, error}
     */
     async modifyEcommVariant(id: number | string, sync_variant_info: OptionalSyncVariant){
         const url = this.origin+"/sync/variant/"+id;
@@ -115,11 +101,7 @@ export default class EcommerceSyncAPI extends GenericAPI{
         });
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {sync_variant: null, sync_product: null, error};
-        }
-        const {sync_variant, sync_product} = await result;
-        return {sync_variant, sync_product, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -127,7 +109,7 @@ export default class EcommerceSyncAPI extends GenericAPI{
      * 
      * @param {int|string} id - Sync Variant ID (integer) or External ID (if prefixed with `@`)
      *
-     * @returns {promise} return {sync_variant, sync_product, error}
+     * @returns {promise} {result, code, error}
      */
     async deleteEcommVariant(id: number | string){
         const url = this.origin+"/sync/variant/"+id;
@@ -137,10 +119,6 @@ export default class EcommerceSyncAPI extends GenericAPI{
         });
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {sync_variant: null, sync_product: null, error};
-        }
-        const {sync_variant, sync_product} = await result;
-        return {sync_variant, sync_product, error: null};
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

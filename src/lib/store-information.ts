@@ -12,7 +12,7 @@ export default class StoreInformationAPI extends GenericAPI{
     /**
      * Modifies packing slip information of the currently authorized Printful store.
      * 
-     * @return {promise} {}
+     * @returns {promise} {result, code, error}
      */
     async changePackingSlip(new_packing_slip: PackingSlip){
         const url = this.origin+"/store/packing-slip";
@@ -23,11 +23,7 @@ export default class StoreInformationAPI extends GenericAPI{
         });
         const data = await response.json();
         const {result, code, error} = await data;
-        if (code >= 400){
-            return {packing_slip: null, error};
-        }
-        const {packing_slip} = await result;
-        return {packing_slip, error: null}
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -36,7 +32,7 @@ export default class StoreInformationAPI extends GenericAPI{
      * @param {number} offset - Offset for query
      * @param {number} limit  - Limit for query
      * 
-     * @returns {promise} {stores, paging, error}
+     * @returns {promise} {result, paging, code, error}
      */
     async getAllStoresInfo(offset?: number,limit?: number){
         const params = new URLSearchParams({});
@@ -47,11 +43,8 @@ export default class StoreInformationAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {result: stores, paging, code, error} = await data;
-        if (code >= 400){
-            return {stores: null, paging: {offset, limit}, error};
-        }
-        return {stores, paging, error: null}
+        const {result, paging, code, error} = await data;
+        return code >= 400 ? {result: null, paging: {offset,limit}, code, error} : {result, paging, code, error: null};
     }
 
     /**
@@ -59,7 +52,7 @@ export default class StoreInformationAPI extends GenericAPI{
      * 
      * @param {int} id - Store ID
      * 
-     * @returns {promise} {store, error} 
+     * @returns {promise} {result, code, error}
      */
     async getStoreInfo(id: number){
         const url = this.origin+"/stores/"+id;
@@ -67,10 +60,7 @@ export default class StoreInformationAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {result: store, code, error} = await data;
-        if (code >= 400){
-            return {store: null, error};
-        }
-        return {store, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

@@ -15,7 +15,7 @@ export default class ProductTemplatesAPI extends GenericAPI{
      * @param {int} offset - Result set offset
      * @param {int} limit - Number of items per page (max 100)
      * 
-     * @returns {promise} {templates,paging,error}
+     * @returns {promise} {result, paging, code, error}
      */
     async getAllTemplates(offset?: number, limit?: number){
         const params = new URLSearchParams({});
@@ -24,12 +24,8 @@ export default class ProductTemplatesAPI extends GenericAPI{
         const url = this.origin+"/product-templates?"+params.toString();
         const response = await fetch(url, {headers: this.headers});
         const data = await response.json();
-        const {code, result, paging, error} = await data;
-        if (code >= 400){
-            return {templates: null, paging: {offset, limit}, error};
-        }
-        const {items: templates} = await result;
-        return {templates, paging, error: null};
+        const {result, paging, code, error} = await data;
+        return code >= 400 ? {result: null, paging: {offset,limit}, code, error} : {result, paging, code, error: null};
         
     }
 
@@ -38,17 +34,14 @@ export default class ProductTemplatesAPI extends GenericAPI{
      * 
      * @param {int|string} id - Template ID (integer) or External Product ID (if prefixed with `@`)
      * 
-     * @returns {promise} {template,error}
+     * @returns {promise} {result, code, error}
      */
     async getTemplate(id:number|string){
         const url = this.origin+"/product-templates/"+id;
         const response = await fetch(url, {headers: this.headers});
         const data = await response.json();
-        const {code, result, error} = await data;
-        if (code >= 400){
-            return {template: null, error};
-        }
-        return {template: result, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -56,7 +49,7 @@ export default class ProductTemplatesAPI extends GenericAPI{
      * 
      * @param {int|string} id  - Template ID (integer) or External Product ID (if prefixed with `@`)
      * 
-     * @returns {promise} {success, error}
+     * @returns {promise} {result, code, error}
      */
     async deleteTemplate(id:number|string){
         const url = this.origin+"/product-templates/"+id;
@@ -65,11 +58,7 @@ export default class ProductTemplatesAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {code, result, error} = await data;
-        if (code >= 400){
-            return {success: false, error};
-        }
-        const {success} = await result;
-        return {success, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

@@ -13,6 +13,8 @@ export default class ShippingRateAPI extends GenericAPI{
      * Returns available shipping options and rates for the given list of products.
      * 
      * @param {ShippingInfo} shipping_info - Recipient location information
+     * 
+     * @returns {promise} {result, code, error}
      */
     async calculateShipping(shipping_info: ShippingInfo){
         const url = this.origin+"/shipping/rates";
@@ -22,10 +24,7 @@ export default class ShippingRateAPI extends GenericAPI{
             body: JSON.stringify(shipping_info)
         });
         const data = await response.json();
-        const {code, result: shipping_options, error} = await data;
-        if (code >= 400){
-            return {shipping_options: null, error};
-        }
-        return {shipping_options, error: null};
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }

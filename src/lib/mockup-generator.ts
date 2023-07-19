@@ -16,7 +16,7 @@ export default class MockupGeneratorAPI extends GenericAPI{
      * @param {int} id - Product ID. 
      * @param {MockupTask} mockup_task - Mockup Task Info 
      * 
-     * @returns {promise} {task, error}
+     * @returns {promise} {result, code, error}
      */
     async createMockupTask(id: number, mockup_task: MockupTask){
         const url = this.origin+"/mockup-generator/create-task/"+id;
@@ -26,11 +26,8 @@ export default class MockupGeneratorAPI extends GenericAPI{
             body: JSON.stringify(mockup_task)
         });
         const data = await response.json();
-        const {result: task, code, error} = await data;
-        if (code >= 400){
-            return {task: null, error};
-        }
-        return {task, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -40,7 +37,7 @@ export default class MockupGeneratorAPI extends GenericAPI{
      * @param {string} orientation - Enum: "horizontal" "vertical", Optional orientation for wall art product printfiles. Allowed values: horizontal, vertical
      * @param {string} technique - Optional technique for product. This can be used in cases where product supports multiple techniques like DTG and embroidery
      * 
-     * @returns {promise} {files, error}
+     * @returns {promise} {result, code, error}
      */
     async getProductVariantPrintFiles(id?: number, orientation?: Orientation, technique?: string){
         const params = new URLSearchParams({});
@@ -51,13 +48,18 @@ export default class MockupGeneratorAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {result: files, code, error} = await data;
-        if (code >= 400){
-            return {files: null, error};
-        }
-        return {files, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
+
+    /**
+     * Returns asynchronous mockup generation task result. If generation task is completed, it will contain a list of generated mockups.
+     * 
+     * @param {string} task_key - Task key retrieved when creating the generation task.
+     * 
+     * @returns {promise} {result, code, error}
+     */
     async getMockupTaskResult(task_key: string){
         const params = new URLSearchParams({task_key});
         const url = this.origin + "/mockup-generator/task?"+params.toString();
@@ -65,11 +67,8 @@ export default class MockupGeneratorAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {result: task, code, error} = await data;
-        if (code >= 400){
-            return {task: null, error};
-        }
-        return {task, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /**
@@ -79,7 +78,7 @@ export default class MockupGeneratorAPI extends GenericAPI{
      * @param {string} orientation - Enum: "horizontal" "vertical", Optional orientation for wall art product printfiles. Allowed values: horizontal, vertical
      * @param {string} technique - Optional technique for product. This can be used in cases where product supports multiple techniques like DTG and embroidery
      * 
-     * @returns {promise} {files, error}
+     * @returns {promise} {promise} {result, code, error}
      */
     async getLayoutTemplates(id: number, orientation?: Orientation, technique?: string){
         const params = new URLSearchParams({});
@@ -90,10 +89,7 @@ export default class MockupGeneratorAPI extends GenericAPI{
             headers: this.headers,
         });
         const data = await response.json();
-        const {result: templates, code, error} = await data;
-        if (code >= 400){
-            return {templates: null, error};
-        }
-        return {templates, error: null}
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 }
