@@ -1,9 +1,10 @@
 {
   "name": "printful-sdk-js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Provides an SDK wrapper for JS/TS projects that require Printful Print-On-Demand API.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": "artT14/printful-sdk-js.git",
   "files": [
     "dist",
     "src",
