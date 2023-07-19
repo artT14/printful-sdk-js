@@ -11,19 +11,19 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
 describe("OrdersAPI Tests", ()=>{
     /* getAllOrders() */
     // TODO: needs negative tests 
     it("Returns list of order objects from your store", async ()=>{
-        const {orders, paging, error} = await client.orders.getAllOrders();
-        expect(error).toBeNull();
-        expect(orders).toBeDefined();
-        expect(paging).toBeDefined();
+        const {result, error, code} = await client.orders.getAllOrders();
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     });
 
     /* createOrder() */
@@ -35,12 +35,14 @@ describe("OrdersAPI Tests", ()=>{
 
     /* getOrder() */
     // TODO: needs negative tests
-    it("", async ()=>{
-        const {orders} = await client.orders.getAllOrders(0,1);
+    it("Returns order data by ID or External ID.", async ()=>{
+        const {result: orders} = await client.orders.getAllOrders(0,1);
         if (orders.length === 0) return;
-        const {order, error} = await client.orders.getOrder(orders[0].id);
-        expect(error).toBeNull();
-        expect(order).toBeDefined();
+		await new Promise((r) => setTimeout(r, 100));
+        const {result, error, code} = await client.orders.getOrder(orders[0].id);
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     });
 
     /* cancelOrder() */
@@ -67,9 +69,9 @@ describe("OrdersAPI Tests", ()=>{
     /* estimateOrderCost() */
     // TODO: needs negative tests
     it("Calculates the estimated order costs", async ()=>{
-        const {costs, retail_costs, error} = await client.orders.estimateOrderCost(EXAMPLE_ORDER);
-        expect(error).toBeNull();
-        expect(costs).toBeDefined();
-        expect(retail_costs).toBeDefined();
+        const {result, error, code} = await client.orders.estimateOrderCost(EXAMPLE_ORDER);
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     })
 })

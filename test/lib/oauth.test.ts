@@ -8,16 +8,17 @@ beforeAll(()=>{
 })
 
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
 describe("OAuthAPI Tests", ()=>{
 	/* getScopes() */
 	it("should return all scopes given a token", async ()=>{
-		const {scopes, error} = await client.oauth.getScopes()
+		const {result, error, code} = await client.oauth.getScopes()
 		expect(error).toBeNull();
-		expect(scopes).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	})
 })

@@ -11,21 +11,23 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
 describe("ShippingRateAPI Tests", ()=>{
 	/* calculateShipping() */
 	it("Returns available shipping options", async ()=>{
-		const {shipping_options, error} = await client.shippingRate.calculateShipping(EXAMPLE_SHIPPING_INFO);
+		const {result, error, code} = await client.shippingRate.calculateShipping(EXAMPLE_SHIPPING_INFO);
 		expect(error).toBeNull();
-		expect(shipping_options).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	});
 	it("Fails to return available shipping options, based on faulty info", async ()=>{
-		const {shipping_options, error} = await client.shippingRate.calculateShipping(FAULTY_SHIPPING_INFO);
-		expect(shipping_options).toBeNull();
+		const {result, error, code} = await client.shippingRate.calculateShipping(FAULTY_SHIPPING_INFO);
+		expect(result).toBeNull();
 		expect(error).toBeDefined();
+		expect(code).toBeGreaterThanOrEqual(400);
 	});
 })

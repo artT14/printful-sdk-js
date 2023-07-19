@@ -10,16 +10,17 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
 describe("CountryCodesAPI Tests", ()=>{
     /* getCountryList() */
     it("Retrieve state list that requires sales tax calculation", async ()=>{
-        const {countryCodes, error} = await client.countryCodes.getCountryList();
-        expect(error).toBeNull();
-        expect(countryCodes).toBeDefined();
+        const {result, error, code} = await client.countryCodes.getCountryList();
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     })
 })

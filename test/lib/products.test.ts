@@ -11,95 +11,114 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
 describe("ProductsAPI Tests", ()=>{
 	/* getAllSyncProducts() */
 	// TODO: needs negative tests
 	it("should return a list of Sync Product objects from your custom Printful store.", async ()=>{
-		const {products, paging, error} = await client.products.getAllSyncProducts();
+		const {result, error, code} = await client.products.getAllSyncProducts();
 		expect(error).toBeNull();
-		expect(products).toBeDefined();
-		expect(paging.total).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	});
 
 	/* getSyncProduct() */
 	//TODO: needs negative tests
 	it("should get information about a single Sync Product and its Sync Variants.", async ()=>{
-        const {sync_product, sync_variants, error} = await client.products.getSyncProduct(314179759);
+        const {result, error, code} = await client.products.getSyncProduct(314179759);
 		expect(error).toBeNull();
-		expect(sync_product).toBeDefined();
-		expect(sync_variants).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	});
 
 	/* createSyncProduct() */
 	//TODO: needs negative tests
 	it("should create a new Sync Product together with its Sync Variants", async ()=>{
-		const {product, error} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
+		const {result, error, code} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
 		expect(error).toBeNull();
-		expect(product).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	});
 
 	/* createSyncProduct() */
 	//TODO: needs negative tests
 	it("should delete a Sync Product with all of its Sync Variants", async ()=>{
-		const {product} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
-		const {result, error} = await client.products.deleteSyncProduct(product.id)
+		const {result: product} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
+		await new Promise((r) => setTimeout(r, 100));
+		const {result, error, code} = await client.products.deleteSyncProduct(product.id)
 		expect(error).toBeNull();
-		expect(result).toHaveLength(0);
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	});
 
 	/* modifySyncProduct() */
 	//TODO: needs negative tests
 	it("should modify an existing Sync Product with its Sync Variants.", async ()=>{
-		const {product: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
-		const {product, error} = await client.products.modifySyncProduct(id, SYNC_PRODUCT_2, SYNC_VARIANTS);
+		const {result: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
+		await new Promise((r) => setTimeout(r, 100));
+		const {result, error, code} = await client.products.modifySyncProduct(id, SYNC_PRODUCT_2, SYNC_VARIANTS);
 		expect(error).toBeNull();
-		expect(product).toBeDefined();
-		expect(product.name).toBe(SYNC_PRODUCT_2.name);
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
+		expect(result.name).toBe(SYNC_PRODUCT_2.name);
 	});
 
 	/* getSyncVariant() */
 	//TODO: needs negative tests
 	it("should get information about a single Sync Variant.", async ()=>{
-		const {products} = await client.products.getAllSyncProducts();
-        const {sync_variants} = await client.products.getSyncProduct(products[0].id);
-		const {variant, error} = await client.products.getSyncVariant(sync_variants[0].id);
+		const {result: products} = await client.products.getAllSyncProducts();
+		await new Promise((r) => setTimeout(r, 100));
+        const {result: {sync_variants}} = await client.products.getSyncProduct(products[0].id);
+		await new Promise((r) => setTimeout(r, 100));
+		const {result, error, code} = await client.products.getSyncVariant(sync_variants[0].id);
 		expect(error).toBeNull();
-		expect(variant).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	});
 
 	/* deleteSyncVariant() */
 	//TODO: needs negative tests
 	it("should delete a single Sync Variant", async ()=>{
-		const {product: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
-        const {sync_variants} = await client.products.getSyncProduct(id);
-		const {result, error} = await client.products.deleteSyncVariant(sync_variants[0].id);
+		const {result: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
+		await new Promise((r) => setTimeout(r, 100));
+        const {result: {sync_variants}} = await client.products.getSyncProduct(id);
+		await new Promise((r) => setTimeout(r, 100));
+		const {result, error, code} = await client.products.deleteSyncVariant(sync_variants[0].id);
 		expect(error).toBeNull();
-		expect(result).toHaveLength(0);
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	})
 
 	/* modifySyncVariant() */
 	//TODO: needs negative tests
 	it("should modify an existing Sync Variant.", async ()=>{
-		const {product: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
-        const {sync_variants} = await client.products.getSyncProduct(id);
-		const {variant, error} = await client.products.modifySyncVariant(sync_variants[0].id, MODIFIED_SYNC_VARIANT);
+		const {result: {id}} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
+		await new Promise((r) => setTimeout(r, 100));
+        const {result: {sync_variants}} = await client.products.getSyncProduct(id);
+		await new Promise((r) => setTimeout(r, 100));
+		const {result, error, code} = await client.products.modifySyncVariant(sync_variants[0].id, MODIFIED_SYNC_VARIANT);
 		expect(error).toBeNull();
-		expect(variant.variant_id).toBe(MODIFIED_SYNC_VARIANT.variant_id);
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
+		expect(result.variant_id).toBe(MODIFIED_SYNC_VARIANT.variant_id);
 	})
 
 	/* createSyncVariant() */
 	//TODO: needs negative tests
 	it("should create a new Sync Variant for an existing Sync Product", async ()=>{
-		const {product} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
-		const {variant, error} = await client.products.createSyncVariant(product.id, MODIFIED_SYNC_VARIANT);
+		const {result: product} = await client.products.createSyncProduct(SYNC_PRODUCT, SYNC_VARIANTS);
+		await new Promise((r) => setTimeout(r, 100));
+		const {result, error, code} = await client.products.createSyncVariant(product.id, MODIFIED_SYNC_VARIANT);
 		expect(error).toBeNull();
-		expect(variant.variant_id).toBe(MODIFIED_SYNC_VARIANT.variant_id);
-        const {sync_variants} = await client.products.getSyncProduct(product.id);
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
+		expect(result.variant_id).toBe(MODIFIED_SYNC_VARIANT.variant_id);
+		await new Promise((r) => setTimeout(r, 100));
+        const {result: {sync_variants}} = await client.products.getSyncProduct(product.id);
 		expect(sync_variants).toHaveLength(SYNC_VARIANTS.length+1);
 	})
 })

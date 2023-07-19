@@ -11,32 +11,36 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
 describe("WebhookAPI Tests", ()=>{
     /* getWebhookConfig() */
     it("Returns configured webhook URL and list of webhook event types enabled for the store", async ()=>{
-        const {config, error} = await client.webhook.getWebhookConfig();
-        expect(error).toBeNull();
-        expect(config).toBeDefined();
+        const {result, error, code} = await client.webhook.getWebhookConfig();
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     })
 
     /* setWebhookConfig() */
     // TODO: needs more tests
     it("Use this endpoint to enable a webhook URL for a store and select webhook event types that will be sent to this URL.", async ()=>{
-        const {config, error} = await client.webhook.setWebhookConfig(EXAMPLE_WEBHOOK_CONFIG);
-        expect(error).toBeNull();
-        expect(config).toBeDefined();
+        const {result, error, code} = await client.webhook.setWebhookConfig(EXAMPLE_WEBHOOK_CONFIG);
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     })
 
-    /* setWebhookConfig() */
+    /* disableWebhookSupport() */
     it("Removes the webhook URL and all event types from the store.", async ()=>{
         const {} = await client.webhook.setWebhookConfig(EXAMPLE_WEBHOOK_CONFIG);
-        const {config, error} = await client.webhook.disableWebhookSupport();
-        expect(error).toBeNull();
-        expect(config).toBeDefined();
+		await new Promise((r) => setTimeout(r, 100));
+        const {result, error, code} = await client.webhook.disableWebhookSupport();
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     })
 })

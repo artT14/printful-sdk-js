@@ -10,17 +10,18 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
-describe("ApprovalSheetsAPI Tests", async () =>{
+describe("ApprovalSheetsAPI Tests", () =>{
     /* getApprovalSheets() */
     it("Retrieve a list of approval sheets confirming suggested changes to files of on hold orders.", async ()=>{
-        const {sheets, error} = await client.approvalSheets.getApprovalSheets();
+        const {result, error, code} = await client.approvalSheets.getApprovalSheets();
         expect(error).toBeNull();
-        expect(sheets).toBeDefined();
+        expect(result).toBeDefined();
+        expect(code).toBeLessThan(400);
     });
 
     /* approveDesign() */

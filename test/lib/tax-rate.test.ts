@@ -11,24 +11,26 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
 describe("TaxRateAPI Tests", ()=>{
     /* getCountryTaxList() */
     it("Retrieve state list that requires sales tax calculation", async ()=>{
-        const {taxList, error} = await client.taxRate.getCountryTaxList();
-        expect(error).toBeNull();
-        expect(taxList).toBeDefined();
+        const {result, error, code} = await client.taxRate.getCountryTaxList();
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     })
 
     /* calcTax() */
     // TODO: Needs more Tests
     it("Calculates sales tax rate for given address if required", async ()=>{
-        const {taxRate, error} = await client.taxRate.calcTax(EXAMPLE_RECIPIENT);
-        expect(error).toBeNull();
-        expect(taxRate).toBeDefined();
+        const {result, error, code} = await client.taxRate.calcTax(EXAMPLE_RECIPIENT);
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     })
 })

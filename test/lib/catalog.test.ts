@@ -10,59 +10,61 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 });
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
 describe("CatalogAPI", ()=>{
 	/* getAllProducts() */
 	it("should return list of Products available in the Printful", async ()=>{
-		const {products, error} = await client.catalog.getAllProducts();
+		const {result, error, code} = await client.catalog.getAllProducts();
 		expect(error).toBeNull();
-		expect(products).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	});
 
 	/* getProduct() */
 	// TODO: need negative tests
-	it("should return information about a specific product and a list of variants for this product.g", async()=>{
-        const {product, variants, error} = await client.catalog.getProduct(71);
+	it("should return information about a specific product and a list of variants for this product.", async()=>{
+        const {result, error, code} = await client.catalog.getProduct(71);
 		expect(error).toBeNull();
-		expect(product).toBeDefined();
-		expect(variants).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	});
 
 	/* getVariant() */
 	// TODO: need negative tests
 	it("should return information about a specific Variant and its Product", async ()=>{
-        const {product, variant, error} = await client.catalog.getVariant(4018);
+        const {result, error, code} = await client.catalog.getVariant(4018);
 		expect(error).toBeNull();
-		expect(product).toBeDefined();
-		expect(variant).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	});
 
 	/* getSize() */
 	// TODO: need negative tests
 	it("should return information about the size guide for a specific product.", async ()=>{
-        const {product_id, available_sizes, size_tables, error} = await client.catalog.getSize(71);
+        const {result, error, code} = await client.catalog.getSize(71);
 		expect(error).toBeNull();
-		expect(product_id).toBe(71);
-		expect(available_sizes).toBeDefined();
-		expect(size_tables).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	})
 
 	/* getAllCategories() */
 	it("should return list of Catalog Categories available in the Printful", async ()=>{
-		const {categories, error} = await client.catalog.getAllCategories();
+		const {result, error, code} = await client.catalog.getAllCategories();
 		expect(error).toBeNull();
-		expect(categories).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	})
 
 	/* getCategory() */
 	//TODO: need negative tests
 	it("should return information about a specific category", async ()=>{
-		const {category, error} = await client.catalog.getCategory(24);
+		const {result, error, code} = await client.catalog.getCategory(24);
 		expect(error).toBeNull();
-		expect(category).toBeDefined();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
 	})
 })

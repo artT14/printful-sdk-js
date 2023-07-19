@@ -11,9 +11,9 @@ beforeAll(()=>{
     client = createPrintfulStoreClient(process.env.TEST_AUTH);
 })
 
-// Wait 50 mili before each test to prevent from getting blocked
+// Wait 100 mili before each test to prevent from getting blocked
 beforeEach(async ()=>{
-	await new Promise((r) => setTimeout(r, 50));
+	await new Promise((r) => setTimeout(r, 100));
 });
 
 describe("StoreInformationAPI Tests", ()=>{
@@ -29,17 +29,20 @@ describe("StoreInformationAPI Tests", ()=>{
     /* getAllStoresInfo() */
     // TODO: needs more tests
     it("Get basic information about stores depending on the token access level", async ()=>{
-        const {stores, error} = await client.storeInformation.getAllStoresInfo();
-        expect(error).toBeNull();
-        expect(stores).toBeDefined();
+        const {result, error, code} = await client.storeInformation.getAllStoresInfo();
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     });
 
     /* getStoreInfo() */
     // TODO: needs more tests
     it("Get basic information about a store based on provided ID", async ()=>{
-        const {stores} = await client.storeInformation.getAllStoresInfo();
-        const {store, error} = await client.storeInformation.getStoreInfo(stores[0].id);
-        expect(error).toBeNull();
-        expect(store).toBeDefined();
+        const {result: stores} = await client.storeInformation.getAllStoresInfo();
+		await new Promise((r) => setTimeout(r, 100));
+        const {result, error, code} = await client.storeInformation.getStoreInfo(stores[0].id);
+		expect(error).toBeNull();
+		expect(result).toBeDefined();
+		expect(code).toBeLessThan(400);
     });
 })
