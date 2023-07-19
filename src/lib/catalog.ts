@@ -22,6 +22,20 @@ export default class CatalogAPI extends GenericAPI{
     }
 
     /** 
+     * Returns information about a specific Variant and its Product
+     * @param {int} id - Product ID.
+     * 
+     * @returns {promise} {result, code, error}
+     * */
+    async getVariant(id: number){
+        const url = this.origin+"/products/variant/"+id;
+        const response = await fetch(url);
+        const data = await response.json();
+        const {result, code, error} = await data;
+        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
+    }
+
+    /** 
      * Returns information about a specific product and a list of variants for this product.
      * 
      * @param {int} id - Product ID.
@@ -35,20 +49,6 @@ export default class CatalogAPI extends GenericAPI{
         const {result, code, error} = await data;
         return code >= 400 ? {result: null, code, error} : {result, code, error: null};
 
-    }
-
-    /** 
-     * Returns information about a specific Variant and its Product
-     * @param {int} id - Product ID.
-     * 
-     * @returns {promise} {result, code, error}
-     * */
-    async getVariant(id: number){
-        const url = this.origin+"/products/variant/"+id;
-        const response = await fetch(url);
-        const data = await response.json();
-        const {result, code, error} = await data;
-        return code >= 400 ? {result: null, code, error} : {result, code, error: null};
     }
 
     /** 
