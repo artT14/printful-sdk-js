@@ -71,7 +71,8 @@ export default class ProductsAPI extends GenericAPI{
     }
 
     /**
-     * Deletes a Sync Product with all of its Sync Variants
+     * Deletes a Sync Product with all of its Sync Variants.
+     * 
      * @param {int|string} id - Sync Product ID (integer) or External ID (if prefixed with `@`)
      * 
      * @returns {promise} {result, code, error}
