@@ -11,10 +11,14 @@ export default class CatalogAPI extends GenericAPI{
     /** 
      * Returns list of Products available in the Printful
      * 
+     * @param {string} category_id - A comma-separated list of Category IDs of the Products that are to be returned
+     * 
      * @returns {promise} {result, code, error}
      * */
-    async getAllProducts(){
-        const url = this.origin+"/products";
+    async getAllProducts(category_id?: string){
+        const params = new URLSearchParams({});
+        category_id && params.append("category_id", String(category_id));
+        const url = this.origin+"/products?" + params.toString();
         const response = await fetch(url);
         const data = await response.json();
         const {result, code, error} = await data;
