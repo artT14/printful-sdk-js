@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "artT14/printful-sdk-js.git",
+  "homepage": "https://printful-sdk-js.netlify.app/",
   "files": [
     "dist",
     "src",

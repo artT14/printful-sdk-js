@@ -38,9 +38,11 @@ else{
 **ANSWER:** Read the following guide on Prinful API Docs on [Authentication](https://developers.printful.com/docs/?_gl=1*1sbmfdi*_ga*NDMzMTM2Mjk0LjE2ODcyMzU3MDc.*_ga_EZ4XVRL864*MTY4ODc3OTM1NC4xMi4xLjE2ODg3ODEwMzYuMTAuMC4w#tag/Authorization).
 
 ## Documentation
-*WIP* *Coming soon...* 
 
-Documentation is in the process of being composed. I will provide a link soon.
+[Full Docs](https://printful-sdk-js.netlify.app/docs/intro)
+*🚧Still WIP🚧* 
+
+More examples are in the process of being composed. I will provide a link soon.
 
 ## Testing
 *WIP* *Coming soon...*
