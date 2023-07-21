@@ -39,7 +39,7 @@ export default class MockupGeneratorAPI extends GenericAPI{
      * 
      * @returns {promise} {result, code, error}
      */
-    async getProductVariantPrintFiles(id?: number, orientation?: Orientation, technique?: string){
+    async getProductVariantPrintFiles(id: number, orientation?: Orientation, technique?: string){
         const params = new URLSearchParams({});
         orientation && params.append("orientation", orientation);
         technique && params.append("technique", technique);
