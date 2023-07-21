@@ -12,6 +12,8 @@ export default class StoreInformationAPI extends GenericAPI{
     /**
      * Modifies packing slip information of the currently authorized Printful store.
      * 
+     * @param {PackingSlip} new_packing_slip - packing slip information
+     * 
      * @returns {promise} {result, code, error}
      */
     async changePackingSlip(new_packing_slip: PackingSlip){
